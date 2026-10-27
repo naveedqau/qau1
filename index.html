@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quaid-i-Azam University (QAU) - Digital Kiosk Signage (Academic Light Theme)</title>
+    <title>Quaid-i-Azam University (QAU) - Digital Kiosk Signage (Boğaziçi Hero Layout)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,15 +11,10 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            base: '#f8fafc',       // Slate 50 background
-                            card: '#ffffff',       // Pure white cards
-                            dark: '#e2e8f0',       // Slate 200 borders/accents
-                            deeper: '#0f172a',     // Slate 900 primary text
-                            accent: '#1e293b',     // Slate 800 dark accent
-                            gold: '#d97706',       // Warm Amber/Gold highlight
-                            goldhover: '#b45309',
-                            muted: '#64748b'       // Slate 500 secondary text
+                        boun: {
+                            navy: '#0F2B5B',       // Boğaziçi Primary Deep Blue
+                            azure: '#27ACE2',      // Sky/Bright Blue Accent
+                            overlay: 'rgba(15, 43, 91, 0.45)'
                         }
                     },
                     fontFamily: {
@@ -39,599 +34,256 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: #0F172A;
+            color: #FFFFFF;
             overflow: hidden;
             user-select: none;
         }
 
-        /* Clean Light Glass Panels */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(217, 119, 6, 0.25);
-            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+        /* Hero Background Styling */
+        .hero-bg-container {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.6s ease-in-out;
         }
 
-        .glass-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        /* Glass Utility Circle Buttons (Matching top right Boğaziçi Header) */
+        .glass-circle-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.2s ease;
+        }
+        .glass-circle-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+        }
+
+        /* Right Circular Thumbnail Selector */
+        .circle-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            overflow: hidden;
+            cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .circle-thumb.active {
+            border-color: #27ACE2;
+            transform: scale(1.18);
+            box-shadow: 0 0 15px rgba(39, 172, 226, 0.8);
         }
 
-        .glass-card:hover {
-            border-color: rgba(217, 119, 6, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 20px -3px rgba(15, 23, 42, 0.1);
+        /* Slide Animation */
+        .hero-enter {
+            animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .gold-tint-glow {
-            background: radial-gradient(circle at 80% 20%, rgba(254, 243, 199, 0.6) 0%, rgba(248, 250, 252, 0.95) 70%);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d97706;
-            border-radius: 4px;
-        }
-
-        /* Slide Transition Animations */
-        .slide-enter {
-            animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        /* Progress Bar Animation Sync */
         .progress-bar-fill {
             transition: width 0.1s linear;
         }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col justify-between p-4 md:p-6 bg-slate-50 text-slate-900 overflow-hidden relative">
+<body class="h-screen w-screen flex flex-col justify-between p-4 bg-slate-950 text-white overflow-hidden relative">
 
-    <!-- Ambient Background Lighting Accent (Light Warm Gold & Soft Slate) -->
-    <div class="absolute -top-40 -left-40 w-96 h-96 bg-amber-100 rounded-full blur-[140px] pointer-events-none opacity-80"></div>
-    <div class="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] bg-sky-100 rounded-full blur-[160px] pointer-events-none opacity-80"></div>
-
-    <!-- HEADER / TOP BAR -->
-    <header class="glass-panel rounded-2xl px-6 py-3.5 flex items-center justify-between z-20 border-b border-brand-gold/30 shadow-sm">
-        <!-- University Identity (WITH LOGO IMAGE) -->
-        <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-amber-300 overflow-hidden">
-                <!-- Replace 'logo.png' with your actual logo file path or URL -->
-                <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain">
-            </div>
-            <div>
-                <h1 class="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
-                    Quaid-i-Azam University <span class="text-xs uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-100 text-brand-gold font-bold border border-amber-300">Islamabad</span>
-                </h1>
-                <p class="text-xs text-slate-500 font-medium">Ranked #1 University in Pakistan (HEC & QS World Rankings)</p>
+    <!-- HEADER / TOP BAR (Boğaziçi Web Header Style) -->
+    <header class="w-full px-6 py-3 flex items-center justify-between z-30 relative">
+        <!-- Left: Menu Icon & Logo -->
+        <div class="flex items-center space-x-5">
+            <button class="text-white hover:text-boun-azure text-2xl transition-colors">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-full bg-white p-1 flex items-center justify-center shadow-md border border-white/30 overflow-hidden">
+                    <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain">
+                </div>
+                <div class="leading-tight">
+                    <h1 class="text-lg md:text-xl font-black tracking-wider text-white uppercase">
+                        Quaid-i-Azam University
+                    </h1>
+                    <p class="text-[10px] text-slate-300 font-semibold tracking-widest uppercase">Islamabad, Pakistan</p>
+                </div>
             </div>
         </div>
 
-        <!-- Right Side: Weather, Clock & Status -->
-        <div class="flex items-center space-x-6">
-            <!-- Weather Badge -->
-            <div class="hidden md:flex items-center space-x-3 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
-                <i class="fa-solid fa-cloud-sun text-brand-gold text-xl"></i>
-                <div class="text-left">
-                    <div class="text-xs text-slate-400">Islamabad, PK</div>
-                    <div class="text-sm font-bold text-slate-800" id="weather-temp">24°C • Sunny</div>
-                </div>
+        <!-- Right: Utility Circle Buttons & Clock -->
+        <div class="flex items-center space-x-3">
+            <div class="hidden lg:flex text-right mr-3">
+                <div class="text-sm font-black font-mono text-boun-azure" id="digital-clock">00:00:00 AM</div>
+                <div class="text-[9px] uppercase tracking-widest text-slate-300 font-medium" id="digital-date">Monday, 26 Oct 2026</div>
             </div>
 
-            <!-- Digital Clock -->
-            <div class="text-right bg-white px-5 py-2 rounded-xl border border-slate-200 shadow-sm">
-                <div class="text-lg font-black tracking-wider text-brand-gold font-mono" id="digital-clock">00:00:00 AM</div>
-                <div class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold" id="digital-date">Monday, 26 Oct 2026</div>
-            </div>
-
-            <!-- Full Screen Toggle Button -->
-            <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-brand-gold border border-slate-200 flex items-center justify-center transition-all duration-300 shadow-sm">
-                <i class="fa-solid fa-expand text-base"></i>
+            <button class="w-10 h-10 rounded-full glass-circle-btn text-white flex items-center justify-center" title="Search">
+                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+            </button>
+            <button class="w-10 h-10 rounded-full glass-circle-btn text-white flex items-center justify-center" title="Share">
+                <i class="fa-solid fa-share-nodes text-sm"></i>
+            </button>
+            <button class="w-10 h-10 rounded-full glass-circle-btn text-white flex items-center justify-center" title="User Portal">
+                <i class="fa-solid fa-user text-sm"></i>
+            </button>
+            <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-full glass-circle-btn text-white flex items-center justify-center" title="Fullscreen">
+                <i class="fa-solid fa-expand text-sm"></i>
             </button>
         </div>
     </header>
 
-    <!-- MAIN SLIDE DISPLAY CONTENT CONTAINER -->
-    <main class="flex-1 my-4 relative z-10 overflow-hidden flex flex-col justify-center">
-        <!-- Dynamic Slide Stage -->
-        <div id="slide-stage" class="w-full h-full relative">
-            <!-- Slides dynamically rendered here by JavaScript -->
+    <!-- MAIN HERO STAGE CONTAINER -->
+    <main class="flex-1 relative z-10 overflow-hidden rounded-2xl border border-white/20 shadow-2xl my-2">
+        <div id="slide-stage" class="w-full h-full relative hero-bg-container">
+            <!-- Dynamic Slide Hero Content Rendered Here -->
         </div>
     </main>
 
     <!-- FOOTER / KIOSK CONTROLS & NAV BAR -->
-    <footer class="glass-panel rounded-2xl px-6 py-3.5 flex flex-col md:flex-row items-center justify-between z-20 gap-3 border-t border-brand-gold/30 shadow-sm">
-        <!-- Slide Indicator Controls & Progress -->
+    <footer class="w-full px-6 py-2.5 flex flex-col md:flex-row items-center justify-between z-30 gap-3 relative">
         <div class="flex items-center space-x-4 w-full md:w-auto">
             <div class="flex items-center space-x-2">
-                <button onclick="prevSlide()" class="w-10 h-10 rounded-xl bg-white hover:bg-brand-gold hover:text-white text-slate-700 flex items-center justify-center border border-slate-200 transition-all shadow-sm">
-                    <i class="fa-solid fa-chevron-left"></i>
+                <button onclick="prevSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
                 </button>
-                <button id="play-pause-btn" onclick="togglePlayPause()" class="w-10 h-10 rounded-xl bg-brand-gold hover:bg-brand-goldhover text-white flex items-center justify-center font-bold border border-amber-500 shadow-md transition-all">
-                    <i class="fa-solid fa-pause" id="play-pause-icon"></i>
+                <button id="play-pause-btn" onclick="togglePlayPause()" class="w-9 h-9 rounded-full bg-boun-azure text-slate-900 font-black flex items-center justify-center shadow">
+                    <i class="fa-solid fa-pause text-xs" id="play-pause-icon"></i>
                 </button>
-                <button onclick="nextSlide()" class="w-10 h-10 rounded-xl bg-white hover:bg-brand-gold hover:text-white text-slate-700 flex items-center justify-center border border-slate-200 transition-all shadow-sm">
-                    <i class="fa-solid fa-chevron-right"></i>
+                <button onclick="nextSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
                 </button>
             </div>
 
-            <!-- Slide Counter & Label -->
-            <div class="text-xs text-slate-700 font-semibold px-3 py-1.5 rounded-lg bg-white border border-slate-200 flex items-center gap-2 shadow-sm">
-                <span class="text-brand-gold font-bold" id="current-slide-num">01</span>
+            <div class="text-xs text-white font-semibold px-3 py-1.5 rounded-full bg-white/10 border border-white/20 flex items-center gap-2">
+                <span class="text-boun-azure font-bold" id="current-slide-num">01</span>
                 <span class="text-slate-400">/</span>
                 <span id="total-slides-num">11</span>
-                <span class="hidden sm:inline-block text-slate-600 font-medium ml-2 pl-2 border-l border-slate-300" id="current-slide-title">Overview & Vision</span>
+                <span class="hidden sm:inline-block text-slate-200 font-medium ml-2 pl-2 border-l border-white/20" id="current-slide-title">Overview & Vision</span>
             </div>
         </div>
 
-        <!-- Center Interactive Slide Progress Bar -->
         <div class="flex-1 mx-4 max-w-xl w-full">
-            <div class="flex justify-between items-center text-[11px] text-slate-500 mb-1 font-mono">
+            <div class="flex justify-between items-center text-[10px] text-slate-300 mb-1 font-mono">
                 <span id="slide-timer-mode">AUTO-ADVANCE</span>
                 <span id="timer-countdown">60s</span>
             </div>
-            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden border border-slate-300 p-0.5">
-                <div id="progress-bar" class="bg-gradient-to-r from-amber-500 via-brand-gold to-yellow-400 h-full rounded-full w-0 progress-bar-fill shadow-sm"></div>
+            <div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden p-0.5">
+                <div id="progress-bar" class="bg-boun-azure h-full rounded-full w-0 progress-bar-fill"></div>
             </div>
         </div>
 
-        <!-- Direct Navigation Dots / Slide Quick Jump -->
-        <div class="flex items-center space-x-1.5 overflow-x-auto max-w-xs py-1" id="dots-container">
-            <!-- Dynamic Dots generated in JS -->
-        </div>
+        <div class="flex items-center space-x-1.5 overflow-x-auto max-w-xs py-1" id="dots-container"></div>
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // SLIDE DATA CONFIGURATION (11 SLIDES - Modern Academic Light Theme)
+        const heroBackgrounds = [
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_0",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_1",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_2",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_3",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_4",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_5",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_6",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_7",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_8",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_9",
+            "http://googleusercontent.com/image_collection/image_retrieval/2098804714458558925_10"
+        ];
+
         const slides = [
-            // Slide 1: University Overview
             {
                 id: 1,
                 title: "Overview & Vision",
+                bg: heroBackgrounds[0],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Top Seat of Learning</span>
-                                <h2 class="text-4xl lg:text-5xl font-black text-slate-900 mt-3 tracking-tight">Quaid-i-Azam University</h2>
-                                <p class="text-lg text-slate-600 mt-2 font-medium max-w-3xl">Pakistan's premier public research institution, established in 1967 in the scenic foothills of Margalla, Islamabad.</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-2xl border border-amber-200 text-center shadow-lg">
-                                <div class="text-4xl font-black text-brand-gold">#1</div>
-                                <div class="text-xs text-slate-600 uppercase tracking-wider font-bold">HEC Pakistan Ranking</div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-6">
-                            <div class="glass-card p-6 rounded-2xl text-center">
-                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-2xl">
-                                    <i class="fa-solid fa-graduation-cap"></i>
-                                </div>
-                                <div class="text-3xl font-extrabold text-slate-900">13,000+</div>
-                                <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">Active Students</div>
-                            </div>
-                            <div class="glass-card p-6 rounded-2xl text-center">
-                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-2xl">
-                                    <i class="fa-solid fa-flask"></i>
-                                </div>
-                                <div class="text-3xl font-extrabold text-slate-900">40+</div>
-                                <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">Research Institutes</div>
-                            </div>
-                            <div class="glass-card p-6 rounded-2xl text-center">
-                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-2xl">
-                                    <i class="fa-solid fa-award"></i>
-                                </div>
-                                <div class="text-3xl font-extrabold text-slate-900">Top 500</div>
-                                <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">QS World Rankings</div>
-                            </div>
-                            <div class="glass-card p-6 rounded-2xl text-center">
-                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-2xl">
-                                    <i class="fa-solid fa-tree"></i>
-                                </div>
-                                <div class="text-3xl font-extrabold text-slate-900">1,700+</div>
-                                <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">Acres Campus</div>
-                            </div>
-                        </div>
-
-                        <div class="glass-card p-5 rounded-xl border-l-4 border-l-brand-gold flex items-center justify-between">
-                            <div class="flex items-center space-x-4">
-                                <i class="fa-solid fa-bullseye text-brand-gold text-2xl"></i>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-sm">Strategic Vision</h4>
-                                    <p class="text-xs text-slate-600">To foster academic excellence, cutting-edge research, critical thinking, and socio-economic progress for Pakistan and the global community.</p>
-                                </div>
-                            </div>
-                            <span class="text-xs text-brand-gold font-bold uppercase tracking-wider px-3 py-1 rounded bg-amber-100">Margalla Campus</span>
-                        </div>
-                    </div>
-                `
+                headline: "Pakistan's Most Established Research University",
+                subtext: "Established in 1967 in the foothills of Margalla, Islamabad."
             },
-            // Slide 2: VC Message (WITH VC PHOTO IMAGE)
             {
                 id: 2,
                 title: "Vice-Chancellor's Address",
+                bg: heroBackgrounds[1],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Executive Leadership</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Vice-Chancellor's Message</h2>
-                            </div>
-                            <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-xs text-brand-gold font-bold shadow-sm">
-                                <i class="fa-solid fa-user-shield mr-1"></i> Executive Leadership
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 my-auto items-center">
-                            <div class="lg:col-span-4 flex flex-col items-center text-center">
-                                <div class="relative group">
-                                    <div class="w-44 h-44 rounded-2xl bg-gradient-to-tr from-brand-gold via-amber-400 to-amber-600 p-1.5 shadow-xl">
-                                        <div class="w-full h-full rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden border border-slate-200 relative">
-                                            <!-- Replace 'vc-photo.jpg' with your actual VC photo path or URL -->
-                                            <img src="vc.png" alt="Prof. Dr. Zafar Nawaz Jaspal" class="w-full h-full object-cover">
-                                        </div>
-                                    </div>
-                                </div>
-                                <h3 class="text-xl font-extrabold text-slate-900 mt-5">Prof. Dr. Zafar Nawaz Jaspal</h3>
-                                <p class="text-xs text-brand-gold font-bold mt-0.5">Vice Chancellor, Quaid-i-Azam University</p>
-                            </div>
-
-                            <div class="lg:col-span-8 space-y-4">
-                                <div class="glass-card p-6 rounded-2xl relative border-l-4 border-l-brand-gold">
-                                    <i class="fa-solid fa-quote-left text-3xl text-amber-200 absolute top-4 right-4"></i>
-                                    <p class="text-slate-700 text-sm md:text-base leading-relaxed italic">
-                                        "Our vision for Quaid-i-Azam University is to elevate it to the pinnacle of global academic excellence. We remain firmly committed to fostering world-class scientific research, technological innovation, industrial collaboration, and nurturing leadership qualities in our students."
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-200">
-                            <span>Quaid-i-Azam University Secretariat, Islamabad</span>
-                            <span class="text-brand-gold font-semibold"><i class="fa-solid fa-building-columns mr-1"></i> Office of the Vice Chancellor</span>
-                        </div>
-                    </div>
-                `
+                headline: "Pioneering Academic Excellence & Leadership",
+                subtext: "Prof. Dr. Zafar Nawaz Jaspal — Vice Chancellor, Quaid-i-Azam University"
             },
-            // Slide 3: Natural Sciences
             {
                 id: 3,
                 title: "Faculty of Natural Sciences",
+                bg: heroBackgrounds[2],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Academic Pillar</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Faculty of Natural Sciences</h2>
-                                <p class="text-sm text-slate-600 mt-1">Leading theoretical, experimental, and mathematical science education in South Asia.</p>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-auto">
-                            <div class="glass-card p-4 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-sm">Physics & Chemistry</h3>
-                                <p class="text-[11px] text-slate-500 mt-1">High Energy, Condensed Matter & Nanotechnology labs.</p>
-                            </div>
-                            <div class="glass-card p-4 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-sm">Computer Sciences</h3>
-                                <p class="text-[11px] text-slate-500 mt-1">AI, Cyber Security, Data Science & Software Systems.</p>
-                            </div>
-                            <div class="glass-card p-4 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-sm">Mathematics & Stats</h3>
-                                <p class="text-[11px] text-slate-500 mt-1">Applied Modeling, Fluid Mechanics & Econometrics.</p>
-                            </div>
-                            <div class="glass-card p-4 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-sm">Earth & Electronics</h3>
-                                <p class="text-[11px] text-slate-500 mt-1">Geophysics, Geotechnical & Micro-electronics research.</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-3 border-t border-slate-200">
-                            <span>Degrees Offered: BS, MPhil, Ph.D.</span>
-                            <span class="text-brand-gold font-semibold">QAU Natural Sciences Quadrangle</span>
-                        </div>
-                    </div>
-                `
+                headline: "Leading Theoretical & Applied Sciences",
+                subtext: "Physics, Chemistry, Computer Science, Mathematics & Earth Sciences"
             },
-            // Slide 4: Biological Sciences
             {
                 id: 4,
                 title: "Faculty of Biological Sciences",
+                bg: heroBackgrounds[3],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Academic Pillar</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Faculty of Biological Sciences</h2>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-5 my-auto">
-                            <div class="glass-card p-5 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-base">Biochemistry & Biotech</h3>
-                                <p class="text-xs text-slate-500 mt-1">Molecular Biology, Enzymology, Genetics & Gene Editing.</p>
-                            </div>
-                            <div class="glass-card p-5 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-base">Microbiology & Pharmacy</h3>
-                                <p class="text-xs text-slate-500 mt-1">Virology, Immunology & PCP-Accredited Pharm.D degrees.</p>
-                            </div>
-                            <div class="glass-card p-5 rounded-xl border border-slate-200">
-                                <h3 class="font-bold text-slate-900 text-base">Plant & Zoology</h3>
-                                <p class="text-xs text-slate-500 mt-1">Ethnobotany, Wildlife Conservation & Animal Genomics.</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-3 border-t border-slate-200">
-                            <span>State-of-the-Art Bio-Labs</span>
-                            <span class="text-brand-gold font-semibold">Biological Sciences Block</span>
-                        </div>
-                    </div>
-                `
+                headline: "Advanced Molecular & Life Sciences Research",
+                subtext: "Biochemistry, Microbiology, Pharmacy, Zoology & Plant Sciences"
             },
-            // Slide 5: Social Sciences
             {
                 id: 5,
                 title: "Faculty of Social Sciences",
+                bg: heroBackgrounds[4],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Academic Pillar</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Faculty of Social Sciences</h2>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-auto">
-                            <div class="glass-card p-4 rounded-xl border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">IR & Diplomacy</h3></div>
-                            <div class="glass-card p-4 rounded-xl border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">Economics & Trade</h3></div>
-                            <div class="glass-card p-4 rounded-xl border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">Defence Studies</h3></div>
-                            <div class="glass-card p-4 rounded-xl border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">Psychology & Law</h3></div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-3 border-t border-slate-200">
-                            <span>Key Policy Advisory Hub</span>
-                            <span class="text-brand-gold font-semibold">Social Sciences Complex</span>
-                        </div>
-                    </div>
-                `
+                headline: "Center for Strategic & Policy Studies",
+                subtext: "International Relations, Economics, Defence & Strategic Studies"
             },
-            // Slide 6: Research & ORIC
             {
                 id: 6,
                 title: "Research & ORIC",
+                bg: heroBackgrounds[5],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Discovery Engine</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Research, Innovation & ORIC</h2>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-auto">
-                            <div class="glass-card p-6 rounded-2xl border border-slate-200">
-                                <h3 class="text-lg font-bold text-slate-900">Business Incubation</h3>
-                                <p class="text-xs text-slate-600 mt-2">Mentoring student startups, seed funding & IP filing.</p>
-                            </div>
-                            <div class="glass-card p-6 rounded-2xl border border-slate-200">
-                                <h3 class="text-lg font-bold text-slate-900">Research Grants</h3>
-                                <p class="text-xs text-slate-600 mt-2">PKR 500M+ funding from HEC, PSF & Global partners.</p>
-                            </div>
-                            <div class="glass-card p-6 rounded-2xl border border-slate-200">
-                                <h3 class="text-lg font-bold text-slate-900">Patents & Innovation</h3>
-                                <p class="text-xs text-slate-600 mt-2">60+ registered patents across engineering and biosciences.</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-3 border-t border-slate-200">
-                            <span>Central Instrumentation Center</span>
-                            <span class="text-brand-gold font-semibold">oric@qau.edu.pk</span>
-                        </div>
-                    </div>
-                `
+                headline: "Engine of National Scientific Innovation",
+                subtext: "PKR 500M+ research funding, incubation center & patents"
             },
-            // Slide 7: Admissions
             {
                 id: 7,
                 title: "Admissions & Financial Aid",
+                bg: heroBackgrounds[6],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Enrollment</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Admissions & Scholarships</h2>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-auto">
-                            <div class="glass-card p-6 rounded-2xl border border-slate-200">
-                                <h3 class="text-lg font-bold text-slate-900">Admission Cycles</h3>
-                                <p class="text-xs text-slate-600 mt-2">Undergraduate BS (Fall open merit) & Bi-annual Postgraduate/PhD cycles.</p>
-                            </div>
-                            <div class="glass-card p-6 rounded-2xl border border-slate-200">
-                                <h3 class="text-lg font-bold text-slate-900">Financial Aid</h3>
-                                <p class="text-xs text-slate-600 mt-2">HEC Need-Based, Ehsaas, QAU Alumni Fund & PEEF Scholarships.</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-3 border-t border-slate-200">
-                            <span>Online Portal: admissions.qau.edu.pk</span>
-                            <span class="text-brand-gold font-semibold">Admissions Cell</span>
-                        </div>
-                    </div>
-                `
+                headline: "Open Merit Admissions & Merit Scholarships",
+                subtext: "BS, MPhil & PhD degree programs with comprehensive scholarships"
             },
-            // Slide 8: Library
             {
                 id: 8,
-                title: "Central Library & Digital Hub",
+                title: "Central Library Hub",
+                bg: heroBackgrounds[7],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Knowledge Repository</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Dr. Raziuddin Siddiqui Central Library</h2>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 my-auto text-center">
-                            <div class="glass-card p-5 rounded-2xl"><div class="text-2xl font-black text-slate-900">250,000+</div><div class="text-xs text-slate-500 mt-1">Printed Books</div></div>
-                            <div class="glass-card p-5 rounded-2xl"><div class="text-2xl font-black text-slate-900">50,000+</div><div class="text-xs text-slate-500 mt-1">E-Journals</div></div>
-                            <div class="glass-card p-5 rounded-2xl"><div class="text-2xl font-black text-slate-900">HEC DL</div><div class="text-xs text-slate-500 mt-1">Digital Access</div></div>
-                            <div class="glass-card p-5 rounded-2xl"><div class="text-2xl font-black text-slate-900">PERN</div><div class="text-xs text-slate-500 mt-1">High-Speed Wi-Fi</div></div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-200">
-                            <span>Timings: Mon–Fri (08:00 AM – 09:00 PM)</span>
-                            <span class="text-brand-gold font-semibold">library.qau.edu.pk</span>
-                        </div>
-                    </div>
-                `
+                headline: "Dr. Raziuddin Siddiqui Central Library",
+                subtext: "250,000+ volumes, HEC Digital Library & PERN network"
             },
-            // Slide 9: Hostels
             {
                 id: 9,
                 title: "Campus Life & Hostels",
+                bg: heroBackgrounds[8],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Student Ecosystem</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Campus Life & Hostels</h2>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 my-auto">
-                            <div class="glass-card p-5 rounded-xl"><h3 class="font-bold text-slate-900 text-base">16 Hostels</h3><p class="text-xs text-slate-500 mt-1">Residential facilities with dining & security.</p></div>
-                            <div class="glass-card p-5 rounded-xl"><h3 class="font-bold text-slate-900 text-base">Sports Grounds</h3><p class="text-xs text-slate-500 mt-1">Cricket, Football, Basketball & Gymnasium.</p></div>
-                            <div class="glass-card p-5 rounded-xl"><h3 class="font-bold text-slate-900 text-base">Transport Point</h3><p class="text-xs text-slate-500 mt-1">Bus network across Islamabad & Rawalpindi.</p></div>
-                            <div class="glass-card p-5 rounded-xl"><h3 class="font-bold text-slate-900 text-base">Student Societies</h3><p class="text-xs text-slate-500 mt-1">Debating, Literary, Arts & IT Councils.</p></div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 pt-3 border-t border-slate-200">
-                            <span>24/7 Campus Medical Center</span>
-                            <span class="text-brand-gold font-semibold">Margalla Foothills Campus</span>
-                        </div>
-                    </div>
-                `
+                headline: "Vibrant Residential Campus Life",
+                subtext: "16 Hostels, athletic grounds, transport network & medical services"
             },
-            // Slide 10: Societies
             {
                 id: 10,
                 title: "Societies & Co-Curriculars",
+                bg: heroBackgrounds[9],
                 duration: 60,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-8 flex flex-col justify-between relative overflow-hidden">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-brand-gold text-xs font-bold uppercase tracking-widest border border-amber-300">Holistic Excellence</span>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">Student Societies & Development Hub</h2>
-                                <p class="text-sm text-slate-600 mt-1">Fostering leadership, art, innovation, debater skills, and national cultural exchange.</p>
-                            </div>
-                            <div class="bg-white px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-brand-gold shadow-sm">
-                                <i class="fa-solid fa-users mr-1"></i> 15+ Active Societies
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 my-auto">
-                            <div class="glass-card p-5 rounded-2xl border border-slate-200 space-y-3">
-                                <div class="w-10 h-10 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-comments"></i>
-                                </div>
-                                <h3 class="text-base font-bold text-slate-900">QAU Debating & Literary Society</h3>
-                                <p class="text-xs text-slate-600 leading-relaxed">
-                                    Organizes national declamation contests, parliamentary debates, book launches, and poetry symposia.
-                                </p>
-                            </div>
-
-                            <div class="glass-card p-5 rounded-2xl border border-slate-200 space-y-3">
-                                <div class="w-10 h-10 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-laptop-code"></i>
-                                </div>
-                                <h3 class="text-base font-bold text-slate-900">QAU Computing & IT Council</h3>
-                                <p class="text-xs text-slate-600 leading-relaxed">
-                                    Hosts inter-university hackathons, coding bootcamps, AI workshops, and cybersecurity seminars.
-                                </p>
-                            </div>
-
-                            <div class="glass-card p-5 rounded-2xl border border-slate-200 space-y-3">
-                                <div class="w-10 h-10 rounded-xl bg-amber-100 text-brand-gold flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-palette"></i>
-                                </div>
-                                <h3 class="text-base font-bold text-slate-900">Performing Arts & Green Club</h3>
-                                <p class="text-xs text-slate-600 leading-relaxed">
-                                    Drives eco-friendly plantation campaigns across Margalla campus and conducts theater and arts festivals.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="glass-card p-4 rounded-xl flex items-center justify-between border-l-4 border-l-brand-gold">
-                            <span class="text-xs text-slate-700">Annual Inter-Department Sports Gala & Cultural Diversity Evenings held every Spring.</span>
-                            <span class="text-xs text-brand-gold font-bold uppercase tracking-wider">Directorate of Student Affairs</span>
-                        </div>
-                    </div>
-                `
+                headline: "Empowering Student Leadership & Talent",
+                subtext: "Debating, Computing, Arts, Culture & Green Environmental Clubs"
             },
-            // Slide 11: 2 MINUTES 50 SECONDS VIDEO SLIDE
             {
                 id: 11,
                 title: "Campus Video Showcase",
+                bg: heroBackgrounds[10],
                 duration: 170,
-                html: `
-                    <div class="slide-enter h-full w-full rounded-2xl glass-panel gold-tint-glow p-6 flex flex-col justify-between relative overflow-hidden border-2 border-brand-gold/40 shadow-xl">
-                        <div class="flex justify-between items-center z-10 mb-3">
-                            <div class="flex items-center space-x-3">
-                                <span class="flex h-3 w-3 relative">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                                </span>
-                                <div>
-                                    <h2 class="text-2xl md:text-3xl font-black text-slate-900 flex items-center gap-2">
-                                        Quaid-i-Azam University Aerial & Campus Tour
-                                        <span class="text-xs px-2.5 py-0.5 rounded-md bg-red-100 text-red-600 border border-red-300 uppercase tracking-widest font-bold">2m 50s Video</span>
-                                    </h2>
-                                </div>
-                            </div>
-                            <div class="bg-white px-4 py-2 rounded-xl border border-amber-300 flex items-center space-x-3 shadow-sm">
-                                <div class="text-right">
-                                    <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Video Timer</div>
-                                    <div class="text-lg font-black text-brand-gold font-mono" id="video-special-timer">02:50</div>
-                                </div>
-                                <div class="w-8 h-8 rounded-lg bg-amber-100 text-brand-gold flex items-center justify-center font-bold">
-                                    <i class="fa-solid fa-play"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="my-auto w-full flex-1 rounded-2xl bg-black border border-slate-200 relative overflow-hidden flex items-center justify-center shadow-md">
-                            <video id="qau-campus-video" class="w-full h-full object-cover" autoplay muted playsinline>
-                                <source src="qau-1.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-
-                        <div class="flex items-center justify-between text-xs text-slate-500 pt-3 mt-2 border-t border-slate-200">
-                            <span>Campus Tour Showcase • Auto-transitions on video finish</span>
-                            <span class="text-brand-gold font-bold"><i class="fa-solid fa-clapperboard mr-1"></i> QAU Media & Public Relations Cell</span>
-                        </div>
-                    </div>
-                `
+                headline: "Quaid-i-Azam University Campus Tour",
+                subtext: "Aerial view video showcase of the Margalla campus",
+                isVideo: true
             }
         ];
 
@@ -650,9 +302,72 @@
         function loadSlide(index) {
             currentSlideIndex = index;
             const currentSlide = slides[currentSlideIndex];
-            
             const stage = document.getElementById('slide-stage');
-            stage.innerHTML = currentSlide.html;
+
+            stage.style.backgroundImage = `linear-gradient(to right, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.35) 60%, rgba(15, 23, 42, 0.7) 100%), url('${currentSlide.bg}')`;
+
+            if (currentSlide.isVideo) {
+                stage.innerHTML = `
+                    <div class="hero-enter h-full w-full p-10 flex flex-col justify-between relative z-10">
+                        <div class="max-w-3xl mt-auto">
+                            <span class="px-3 py-1 rounded-md bg-red-600 text-white text-xs font-bold uppercase tracking-widest mb-3 inline-block">2m 50s Video Tour</span>
+                            <h2 class="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-lg">${currentSlide.headline}</h2>
+                            <p class="text-lg text-slate-200 mt-2 drop-shadow">${currentSlide.subtext}</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <span class="w-3 h-3 rounded-full bg-boun-azure inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-white/40 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-white/40 inline-block"></span>
+                                <span class="w-12 h-1 bg-white/80 rounded-full inline-block ml-2"></span>
+                            </div>
+                        </div>
+
+                        <div class="absolute inset-x-12 bottom-12 top-20 bg-black/80 rounded-2xl border border-white/20 overflow-hidden shadow-2xl z-20 flex items-center justify-center">
+                            <video id="qau-campus-video" class="w-full h-full object-cover" autoplay muted playsinline>
+                                <source src="qau-1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                `;
+            } else {
+                stage.innerHTML = `
+                    <div class="hero-enter h-full w-full p-10 md:p-14 flex justify-between items-center relative z-10">
+                        <!-- Left Hero Typography (Boğaziçi Style) -->
+                        <div class="max-w-3xl my-auto">
+                            <h2 class="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight drop-shadow-md">
+                                ${currentSlide.headline}
+                            </h2>
+                            <p class="text-lg md:text-xl text-slate-200 mt-4 max-w-xl font-medium drop-shadow">
+                                ${currentSlide.subtext}
+                            </p>
+                            
+                            <!-- Boğaziçi Left Dash Indicator Bar -->
+                            <div class="flex items-center space-x-2 mt-6">
+                                <span class="w-3.5 h-3.5 rounded-full bg-white inline-block"></span>
+                                <span class="w-3.5 h-3.5 rounded-full bg-white/40 inline-block"></span>
+                                <span class="w-3.5 h-3.5 rounded-full bg-white/40 inline-block"></span>
+                                <span class="w-16 h-1.5 bg-white rounded-full inline-block ml-2"></span>
+                            </div>
+
+                            <div class="mt-8 flex items-center space-x-3 text-xs uppercase tracking-widest text-slate-300 font-bold">
+                                <span>Explore QAU Islamabad</span>
+                                <div class="w-5 h-8 rounded-full border-2 border-white/60 flex justify-center p-1">
+                                    <div class="w-1 h-2 bg-white rounded-full animate-bounce"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column Circular Gallery Jump (Boğaziçi Style) -->
+                        <div class="hidden md:flex flex-col space-y-4 my-auto">
+                            ${slides.slice(0, 5).map((s, idx) => `
+                                <div class="circle-thumb ${idx === (currentSlideIndex % 5) ? 'active' : ''}" onclick="loadSlide(${idx})" title="${s.title}">
+                                    <img src="${s.bg}" class="w-full h-full object-cover">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
 
             document.getElementById('current-slide-num').innerText = String(currentSlide.id).padStart(2, '0');
             document.getElementById('total-slides-num').innerText = String(slides.length).padStart(2, '0');
@@ -663,7 +378,7 @@
             updateDots();
             updateProgressBar();
 
-            if (currentSlide.id === 11) {
+            if (currentSlide.isVideo) {
                 setTimeout(() => {
                     const videoElem = document.getElementById('qau-campus-video');
                     if (videoElem) {
@@ -692,15 +407,10 @@
         function updateTimerDisplay() {
             const currentSlide = slides[currentSlideIndex];
             
-            if (currentSlide.id === 11) {
+            if (currentSlide.isVideo) {
                 const mins = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
                 const secs = String(timeRemaining % 60).padStart(2, '0');
                 document.getElementById('timer-countdown').innerText = `${mins}:${secs}`;
-                
-                const specialTimer = document.getElementById('video-special-timer');
-                if (specialTimer) {
-                    specialTimer.innerText = `${mins}:${secs}`;
-                }
                 document.getElementById('slide-timer-mode').innerText = 'VIDEO SHOWCASE';
             } else {
                 document.getElementById('timer-countdown').innerText = `${timeRemaining}s`;
@@ -728,9 +438,9 @@
             isPlaying = !isPlaying;
             const btnIcon = document.getElementById('play-pause-icon');
             if (isPlaying) {
-                btnIcon.className = 'fa-solid fa-pause';
+                btnIcon.className = 'fa-solid fa-pause text-xs';
             } else {
-                btnIcon.className = 'fa-solid fa-play';
+                btnIcon.className = 'fa-solid fa-play text-xs';
             }
 
             const videoElem = document.getElementById('qau-campus-video');
@@ -744,7 +454,7 @@
             container.innerHTML = '';
             slides.forEach((slide, index) => {
                 const dot = document.createElement('button');
-                dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentSlideIndex ? 'bg-brand-gold w-6' : 'bg-slate-300 hover:bg-slate-400'}`;
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentSlideIndex ? 'bg-boun-azure w-6' : 'bg-white/40 hover:bg-white/70'}`;
                 dot.onclick = () => loadSlide(index);
                 dot.title = `Slide ${slide.id}: ${slide.title}`;
                 container.appendChild(dot);
@@ -755,9 +465,9 @@
             const dots = document.getElementById('dots-container').children;
             Array.from(dots).forEach((dot, index) => {
                 if (index === currentSlideIndex) {
-                    dot.className = 'w-6 h-2.5 rounded-full bg-brand-gold transition-all duration-300';
+                    dot.className = 'w-6 h-2.5 rounded-full bg-boun-azure transition-all duration-300';
                 } else {
-                    dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-300';
+                    dot.className = 'w-2.5 h-2.5 rounded-full bg-white/40 hover:bg-white/70 transition-all duration-300';
                 }
             });
         }
@@ -773,10 +483,16 @@
                 hours = hours ? hours : 12;
                 const hoursStr = String(hours).padStart(2, '0');
                 
-                document.getElementById('digital-clock').innerText = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+                const clockElem = document.getElementById('digital-clock');
+                if (clockElem) {
+                    clockElem.innerText = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+                }
 
                 const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-                document.getElementById('digital-date').innerText = now.toLocaleDateString('en-US', options);
+                const dateElem = document.getElementById('digital-date');
+                if (dateElem) {
+                    dateElem.innerText = now.toLocaleDateString('en-US', options);
+                }
             }
             updateClock();
             setInterval(updateClock, 1000);
