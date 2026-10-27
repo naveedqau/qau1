@@ -51,9 +51,9 @@
 
         /* Boğaziçi Glassmorphism top buttons */
         .top-action-btn {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -63,9 +63,10 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             transition: all 0.25s ease;
             cursor: pointer;
+            shrink: 0;
         }
         .top-action-btn:hover {
             background: rgba(255, 255, 255, 0.25);
@@ -81,7 +82,7 @@
         }
 
         .glass-card-dark {
-            background: rgba(8, 12, 20, 0.75);
+            background: rgba(8, 12, 20, 0.78);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -95,13 +96,13 @@
             top: 0;
             bottom: 0;
             right: 0;
-            width: 130px;
+            width: 120px;
             z-index: 40;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-end;
-            padding-right: 12px;
+            padding-right: 0px;
         }
 
         /* The vertical container holding all thumbnails */
@@ -109,9 +110,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             position: relative;
             z-index: 10;
+            padding-right: 12px;
         }
 
         /* Individual thumbnail item wrapper */
@@ -120,22 +122,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 90px;
-            height: 90px;
+            width: 72px;
+            height: 72px;
             cursor: pointer;
         }
 
         /* The circle thumbnail image */
         .thumb-circle {
-            width: 76px;
-            height: 76px;
+            width: 66px;
+            height: 66px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2.5px solid rgba(255, 255, 255, 0.65);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             z-index: 10;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+            background-color: #0b1120;
         }
 
         .thumb-circle img {
@@ -152,25 +155,25 @@
 
         /* Active State - Matches exact white glow cutout / popping effect */
         .thumb-item-wrapper.active .thumb-circle {
-            width: 86px;
-            height: 86px;
+            width: 78px;
+            height: 78px;
             border: 3.5px solid #FFFFFF;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 10px 25px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 22px rgba(255, 255, 255, 0.85), 0 8px 22px rgba(0, 0, 0, 0.6);
             transform: scale(1.05);
         }
 
         /* Curved White Notch Background Element behind Active Thumbnail */
         .active-notch-bg {
             position: absolute;
-            right: -12px;
-            width: 110px;
-            height: 110px;
+            right: 0;
+            width: 96px;
+            height: 96px;
             background: #FFFFFF;
             border-top-left-radius: 50%;
             border-bottom-left-radius: 50%;
             z-index: 5;
-            box-shadow: -8px 0 24px rgba(0, 0, 0, 0.3);
-            transition: top 0.4s cubic-bezier(0.34, 1.25, 0.64, 1);
+            box-shadow: -8px 0 20px rgba(0, 0, 0, 0.3);
+            transition: top 0.35s cubic-bezier(0.34, 1.25, 0.64, 1);
             pointer-events: none;
             display: flex;
             align-items: center;
@@ -181,42 +184,42 @@
         .active-notch-bg::before {
             content: '';
             position: absolute;
-            top: -24px;
+            top: -20px;
             right: 0;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background: transparent;
-            border-bottom-right-radius: 20px;
-            box-shadow: 8px 8px 0 8px #FFFFFF;
+            border-bottom-right-radius: 16px;
+            box-shadow: 6px 6px 0 6px #FFFFFF;
         }
 
         .active-notch-bg::after {
             content: '';
             position: absolute;
-            bottom: -24px;
+            bottom: -20px;
             right: 0;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background: transparent;
-            border-top-right-radius: 20px;
-            box-shadow: 8px -8px 0 8px #FFFFFF;
+            border-top-right-radius: 16px;
+            box-shadow: 6px -6px 0 6px #FFFFFF;
         }
 
-        /* Floating Accessibility Button styling matching user screenshot */
+        /* Floating Accessibility Button styling matching user screenshot - FIXED POSITIONING */
         .accessibility-float-btn {
             position: absolute;
-            bottom: 28px;
-            left: 28px;
-            width: 64px;
-            height: 64px;
+            bottom: 20px;
+            right: 125px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             background: #00A8E8;
-            border: 3.5px solid #FFFFFF;
+            border: 3px solid #FFFFFF;
             color: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 168, 232, 0.5), 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0, 168, 232, 0.5), 0 4px 12px rgba(0,0,0,0.3);
             z-index: 45;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -230,19 +233,19 @@
 
         /* Slide indicator pills at bottom center */
         .pagination-pill {
-            height: 10px;
+            height: 8px;
             border-radius: 20px;
             transition: all 0.4s ease;
             cursor: pointer;
         }
 
         .pagination-pill.active {
-            width: 38px;
+            width: 32px;
             background-color: #00A8E8;
         }
 
         .pagination-pill.inactive {
-            width: 10px;
+            width: 8px;
             background-color: rgba(255, 255, 255, 0.35);
         }
         .pagination-pill.inactive:hover {
@@ -250,42 +253,42 @@
         }
 
         .hero-fade-enter {
-            animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: heroFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes heroFadeIn {
-            from { opacity: 0; transform: translateY(18px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col justify-between p-3 md:p-5 bg-slate-950 text-white overflow-hidden relative">
+<body class="h-screen w-screen flex flex-col justify-between p-3 md:p-4 bg-slate-950 text-white overflow-hidden relative">
 
     <!-- TOP BAR / HEADER -->
-    <header class="w-full px-4 md:px-8 py-2 flex items-center justify-between z-30 relative">
+    <header class="w-full px-3 md:px-6 py-2 flex items-center justify-between z-30 relative shrink-0">
         <!-- University Logo & Title -->
-        <div class="flex items-center space-x-4">
-            <button class="text-white hover:text-qau-azure text-2xl transition-colors cursor-pointer mr-1" title="Main Navigation Menu">
+        <div class="flex items-center space-x-3.5">
+            <button class="text-white hover:text-qau-azure text-xl transition-colors cursor-pointer mr-1" title="Main Navigation Menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
-            <div class="flex items-center space-x-3.5">
-                <div class="w-13 h-13 rounded-full bg-white p-1 flex items-center justify-center shadow-xl border border-white/50 overflow-hidden shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-white p-1 flex items-center justify-center shadow-md border border-white/40 overflow-hidden shrink-0">
                     <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x120/0F2B5B/FFFFFF?text=QAU';">
                 </div>
                 <div class="leading-tight">
-                    <h1 class="text-xl md:text-2xl font-black tracking-wider text-white uppercase drop-shadow-md">
+                    <h1 class="text-lg md:text-xl font-black tracking-wider text-white uppercase drop-shadow-sm">
                         Quaid-i-Azam University
                     </h1>
-                    <p class="text-[11px] text-slate-300 font-bold tracking-widest uppercase">Islamabad, Pakistan</p>
+                    <p class="text-[10px] text-slate-300 font-bold tracking-widest uppercase">Islamabad, Pakistan</p>
                 </div>
             </div>
         </div>
 
         <!-- Right Side: Weather, Clock & Exact Boğaziçi Top Action Buttons -->
-        <div class="flex items-center space-x-3 md:space-x-4">
+        <div class="flex items-center space-x-3">
             <!-- Weather Widget -->
-            <div class="hidden lg:flex items-center space-x-3 glass-badge px-4 py-2 rounded-2xl shadow-sm">
-                <i class="fa-solid fa-cloud-sun text-qau-azure text-xl"></i>
+            <div class="hidden lg:flex items-center space-x-3 glass-badge px-3.5 py-1.5 rounded-xl shadow-sm">
+                <i class="fa-solid fa-cloud-sun text-qau-azure text-lg"></i>
                 <div class="text-left">
                     <div class="text-[9px] text-slate-300 uppercase tracking-widest font-bold">Islamabad, PK</div>
                     <div class="text-xs font-bold text-white">24°C • Sunny</div>
@@ -293,13 +296,13 @@
             </div>
 
             <!-- Digital Clock Badge -->
-            <div class="hidden sm:block glass-badge px-4 py-2 rounded-2xl text-right shadow-sm border-l-2 border-l-qau-azure">
-                <div class="text-sm font-black tracking-wider text-qau-azure font-mono" id="digital-clock">00:00:00 AM</div>
+            <div class="hidden sm:block glass-badge px-3.5 py-1.5 rounded-xl text-right shadow-sm border-l-2 border-l-qau-azure">
+                <div class="text-xs font-black tracking-wider text-qau-azure font-mono" id="digital-clock">00:00:00 AM</div>
                 <div class="text-[9px] uppercase tracking-widest text-slate-300 font-semibold" id="digital-date">Tuesday, 27 Oct 2026</div>
             </div>
 
             <!-- BOĞAZİÇİ EXACT TOP RIGHT GLASS ICON BUTTONS -->
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1.5">
                 <button class="top-action-btn" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -309,7 +312,7 @@
                 <button class="top-action-btn" title="User Profile / Portal">
                     <i class="fa-solid fa-user"></i>
                 </button>
-                <button class="top-action-btn tracking-wider font-extrabold text-sm" title="Language Switcher">
+                <button class="top-action-btn tracking-wider font-extrabold text-xs" title="Language Switcher">
                     TR
                 </button>
                 <button onclick="toggleFullScreen()" class="top-action-btn" title="Fullscreen Mode">
@@ -320,7 +323,7 @@
     </header>
 
     <!-- MAIN HERO STAGE -->
-    <main class="flex-1 relative z-10 overflow-hidden rounded-3xl border border-white/20 shadow-2xl my-2 mx-1 md:mx-4">
+    <main class="flex-1 relative z-10 overflow-hidden rounded-2xl border border-white/20 shadow-2xl my-1 mx-1 md:mx-3">
         <div id="slide-stage" class="w-full h-full relative hero-bg-container">
             <!-- Content Dynamically Populated by JS -->
         </div>
@@ -335,48 +338,48 @@
             </div>
         </div>
 
-        <!-- FLOATING ACCESSIBILITY BUTTON (EXACT POSITION MATCH) -->
+        <!-- FLOATING ACCESSIBILITY BUTTON (POSITIONED SAFELY TO AVOID TEXT OVERLAP) -->
         <button class="accessibility-float-btn" title="Accessibility Options" onclick="toggleAccessibilityMenu()">
-            <i class="fa-solid fa-universal-access text-2xl"></i>
+            <i class="fa-solid fa-universal-access text-xl"></i>
         </button>
     </main>
 
     <!-- FOOTER CONTROLS & PAGINATION -->
-    <footer class="w-full px-6 py-2 flex flex-col md:flex-row items-center justify-between z-30 gap-3 relative">
+    <footer class="w-full px-4 py-2 flex flex-col md:flex-row items-center justify-between z-30 gap-3 relative shrink-0">
         <!-- Left: Slide Navigation Controls & Meta -->
-        <div class="flex items-center space-x-4 w-full md:w-auto justify-between md:justify-start">
-            <div class="flex items-center space-x-2">
-                <button onclick="prevSlide()" class="w-10 h-10 rounded-full glass-badge hover:bg-white/30 text-white flex items-center justify-center cursor-pointer transition">
-                    <i class="fa-solid fa-chevron-left text-xs"></i>
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+            <div class="flex items-center space-x-1.5">
+                <button onclick="prevSlide()" class="w-8 h-8 rounded-full glass-badge hover:bg-white/30 text-white flex items-center justify-center cursor-pointer transition">
+                    <i class="fa-solid fa-chevron-left text-[10px]"></i>
                 </button>
-                <button id="play-pause-btn" onclick="togglePlayPause()" class="w-10 h-10 rounded-full bg-qau-azure text-slate-950 font-black flex items-center justify-center shadow-lg cursor-pointer hover:bg-sky-400 transition">
-                    <i class="fa-solid fa-pause text-xs" id="play-pause-icon"></i>
+                <button id="play-pause-btn" onclick="togglePlayPause()" class="w-8 h-8 rounded-full bg-qau-azure text-slate-950 font-black flex items-center justify-center shadow-md cursor-pointer hover:bg-sky-400 transition">
+                    <i class="fa-solid fa-pause text-[10px]" id="play-pause-icon"></i>
                 </button>
-                <button onclick="nextSlide()" class="w-10 h-10 rounded-full glass-badge hover:bg-white/30 text-white flex items-center justify-center cursor-pointer transition">
-                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                <button onclick="nextSlide()" class="w-8 h-8 rounded-full glass-badge hover:bg-white/30 text-white flex items-center justify-center cursor-pointer transition">
+                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
                 </button>
             </div>
 
-            <div class="text-xs text-white font-semibold px-4 py-2 rounded-full glass-badge flex items-center gap-2">
-                <span class="text-qau-azure font-extrabold text-sm" id="current-slide-num">01</span>
-                <span class="text-slate-400">/</span>
-                <span id="total-slides-num" class="text-slate-300">05</span>
-                <span class="hidden sm:inline-block text-slate-200 font-medium ml-2 pl-2 border-l border-white/20" id="current-slide-title">Overview & Vision</span>
+            <div class="text-xs text-white font-semibold px-3.5 py-1.5 rounded-full glass-badge flex items-center gap-2">
+                <span class="text-qau-azure font-extrabold text-xs" id="current-slide-num">01</span>
+                <span class="text-slate-400 text-[10px]">/</span>
+                <span id="total-slides-num" class="text-slate-300 text-xs">05</span>
+                <span class="hidden sm:inline-block text-slate-200 font-medium ml-2 pl-2 border-l border-white/20 text-xs max-w-[180px] truncate" id="current-slide-title">Overview & Vision</span>
             </div>
         </div>
 
         <!-- Center: EXACT BOĞAZİÇİ PILL PAGINATION DOTS -->
-        <div class="flex items-center justify-center space-x-2 my-1" id="pagination-pills-container">
+        <div class="flex items-center justify-center space-x-2 my-0.5" id="pagination-pills-container">
             <!-- Generated via JS -->
         </div>
 
         <!-- Right: Auto-Advance Progress Indicator -->
-        <div class="w-full md:w-64 max-w-xs">
-            <div class="flex justify-between items-center text-[10px] text-slate-300 mb-1 font-mono">
+        <div class="w-full md:w-56 max-w-xs">
+            <div class="flex justify-between items-center text-[9px] text-slate-300 mb-1 font-mono">
                 <span class="tracking-widest">AUTO-ADVANCE</span>
                 <span id="timer-countdown" class="font-bold text-qau-azure">15s</span>
             </div>
-            <div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden p-0.5">
+            <div class="w-full bg-white/20 h-1 rounded-full overflow-hidden p-0.5">
                 <div id="progress-bar" class="bg-qau-azure h-full rounded-full w-0 transition-all duration-100 ease-linear"></div>
             </div>
         </div>
@@ -462,55 +465,55 @@
             stage.style.backgroundImage = `linear-gradient(to right, rgba(5, 8, 17, 0.88) 0%, rgba(5, 8, 17, 0.45) 55%, rgba(5, 8, 17, 0.65) 100%), url('${currentSlide.bg}')`;
 
             stage.innerHTML = `
-                <div class="hero-fade-enter h-full w-full flex justify-between items-center relative z-10 pl-8 md:pl-16 pr-36">
-                    <div class="max-w-2xl my-auto py-6">
+                <div class="hero-fade-enter h-full w-full flex justify-between items-center relative z-10 pl-6 md:pl-12 pr-32">
+                    <div class="max-w-xl lg:max-w-2xl my-auto py-4">
                         ${currentSlide.isOverview ? `
-                            <div class="flex flex-wrap items-center gap-3 mb-5">
-                                <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 border-amber-400/50 text-amber-300 font-extrabold text-xs uppercase tracking-wider shadow">
-                                    <i class="fa-solid fa-trophy text-amber-400 text-sm"></i>
+                            <div class="flex flex-wrap items-center gap-2.5 mb-3">
+                                <div class="glass-badge px-3 py-1.5 rounded-full flex items-center gap-2 border-amber-400/50 text-amber-300 font-extrabold text-[11px] uppercase tracking-wider shadow">
+                                    <i class="fa-solid fa-trophy text-amber-400 text-xs"></i>
                                     <span>#1 Ranked University in Pakistan</span>
                                 </div>
-                                <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 border-qau-azure/50 text-qau-azure font-extrabold text-xs uppercase tracking-wider shadow">
-                                    <i class="fa-solid fa-globe text-qau-azure text-sm"></i>
+                                <div class="glass-badge px-3 py-1.5 rounded-full flex items-center gap-2 border-qau-azure/50 text-qau-azure font-extrabold text-[11px] uppercase tracking-wider shadow">
+                                    <i class="fa-solid fa-globe text-qau-azure text-xs"></i>
                                     <span>Top 500 QS World Ranking</span>
                                 </div>
                             </div>
                         ` : ''}
 
-                        <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.12] tracking-tight drop-shadow-lg">
+                        <h2 class="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-[1.15] tracking-tight drop-shadow-md">
                             ${currentSlide.headline}
                         </h2>
-                        <p class="text-base md:text-lg text-slate-200 mt-4 max-w-xl font-medium drop-shadow leading-relaxed">
+                        <p class="text-xs md:text-base text-slate-200 mt-3 max-w-lg font-medium drop-shadow leading-relaxed">
                             ${currentSlide.subtext}
                         </p>
 
                         ${currentSlide.isOverview ? `
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 mt-7 max-w-lg">
-                                <div class="glass-card-dark p-3.5 rounded-2xl border-l-4 border-l-amber-400">
-                                    <div class="text-2xl font-black text-amber-400">#1 Rank</div>
-                                    <div class="text-[10px] uppercase font-bold text-slate-300 mt-0.5">HEC National Ranking</div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 max-w-md">
+                                <div class="glass-card-dark p-3 rounded-xl border-l-4 border-l-amber-400">
+                                    <div class="text-xl font-black text-amber-400">#1 Rank</div>
+                                    <div class="text-[9px] uppercase font-bold text-slate-300 mt-0.5">HEC National Ranking</div>
                                 </div>
-                                <div class="glass-card-dark p-3.5 rounded-2xl border-l-4 border-l-qau-azure">
-                                    <div class="text-2xl font-black text-qau-azure">Top 500</div>
-                                    <div class="text-[10px] uppercase font-bold text-slate-300 mt-0.5">QS Global Universities</div>
+                                <div class="glass-card-dark p-3 rounded-xl border-l-4 border-l-qau-azure">
+                                    <div class="text-xl font-black text-qau-azure">Top 500</div>
+                                    <div class="text-[9px] uppercase font-bold text-slate-300 mt-0.5">QS Global Ranking</div>
                                 </div>
-                                <div class="glass-card-dark p-3.5 rounded-2xl border-l-4 border-l-emerald-400">
-                                    <div class="text-2xl font-black text-emerald-400">13,000+</div>
-                                    <div class="text-[10px] uppercase font-bold text-slate-300 mt-0.5">Active Students</div>
+                                <div class="glass-card-dark p-3 rounded-xl border-l-4 border-l-emerald-400">
+                                    <div class="text-xl font-black text-emerald-400">13,000+</div>
+                                    <div class="text-[9px] uppercase font-bold text-slate-300 mt-0.5">Active Students</div>
                                 </div>
                             </div>
                         ` : ''}
 
                         ${currentSlide.isVC ? `
-                            <div class="mt-6 glass-card-dark p-5 rounded-2xl border border-white/20 flex flex-col sm:flex-row items-center gap-5 max-w-xl shadow-2xl">
-                                <div class="w-20 h-20 rounded-full border-2 border-qau-azure overflow-hidden shrink-0 shadow-md">
+                            <div class="mt-5 glass-card-dark p-4 rounded-xl border border-white/20 flex flex-col sm:flex-row items-center gap-4 max-w-lg shadow-xl">
+                                <div class="w-16 h-16 rounded-full border-2 border-qau-azure overflow-hidden shrink-0 shadow-md">
                                     <img src="vc-photo.jpg" alt="VC QAU" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/200x200/0F2B5B/FFFFFF?text=VC+QAU';">
                                 </div>
                                 <div>
-                                    <p class="text-xs md:text-sm italic text-slate-200 font-serif leading-relaxed">
+                                    <p class="text-xs italic text-slate-200 font-serif leading-relaxed">
                                         "Quaid-i-Azam University remains committed to academic rigour, high-impact research, and serving as the flagship academic institution in Pakistan."
                                     </p>
-                                    <div class="mt-2 text-xs font-bold text-qau-azure uppercase tracking-wider">
+                                    <div class="mt-1.5 text-[11px] font-bold text-qau-azure uppercase tracking-wider">
                                         — Prof. Dr. Zafar Nawaz Jaspal (Vice Chancellor)
                                     </div>
                                 </div>
@@ -518,10 +521,10 @@
                         ` : ''}
 
                         ${currentSlide.items ? `
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 max-w-lg">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-5 max-w-lg">
                                 ${currentSlide.items.map(item => `
-                                    <div class="glass-card-dark px-4 py-3 rounded-xl text-xs font-semibold text-slate-100 flex items-center space-x-2.5">
-                                        <i class="fa-solid fa-circle-check text-qau-azure text-sm"></i>
+                                    <div class="glass-card-dark px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-100 flex items-center space-x-2">
+                                        <i class="fa-solid fa-circle-check text-qau-azure text-xs"></i>
                                         <span>${item}</span>
                                     </div>
                                 `).join('')}
@@ -563,7 +566,6 @@
                 container.appendChild(wrapper);
             });
 
-            // Position notch after DOM update
             setTimeout(updateNotchPosition, 50);
         }
 
@@ -573,10 +575,6 @@
             const notch = document.getElementById('active-notch-bg');
 
             if (activeWrapper && notch) {
-                const containerRect = document.getElementById('thumb-list-container').getBoundingClientRect();
-                const activeRect = activeWrapper.getBoundingClientRect();
-
-                // Calculate center offset relative to list container
                 const topOffset = activeWrapper.offsetTop + (activeWrapper.offsetHeight / 2) - (notch.offsetHeight / 2);
                 notch.style.top = `${topOffset}px`;
             }
