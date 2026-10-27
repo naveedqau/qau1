@@ -92,10 +92,10 @@
 
         .circle-thumb-item {
             position: relative;
-            width: 72px;
-            height: 72px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            margin: -4px 0;
+            margin: -3px 0;
             border: 3px solid rgba(255, 255, 255, 0.7);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
             cursor: pointer;
@@ -111,22 +111,12 @@
         }
 
         .circle-thumb-item.active {
-            width: 84px;
-            height: 84px;
+            width: 76px;
+            height: 76px;
             border: 4px solid #ffffff;
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 8px 24px rgba(0, 0, 0, 0.6);
             transform: scale(1.08) translateX(-10px);
             z-index: 50;
-        }
-
-        /* TOP ACTION ICON BAR */
-        .top-action-bar {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 14px;
-            padding: 4px;
         }
 
         .hero-enter {
@@ -152,7 +142,7 @@
             </button>
             <div class="flex items-center space-x-3">
                 <div class="w-12 h-12 rounded-full bg-white p-1 flex items-center justify-center shadow-lg border border-white/40 overflow-hidden shrink-0">
-                    <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0F2B5B/FFFFFF?text=QAU';">
+                    <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://qau.edu.pk/wp-content/uploads/2020/09/qaulogo.png';">
                 </div>
                 <div class="leading-tight">
                     <h1 class="text-lg md:text-xl font-black tracking-wider text-white uppercase drop-shadow-md">
@@ -179,24 +169,10 @@
                 <div class="text-[10px] uppercase tracking-widest text-slate-300 font-semibold" id="digital-date">Tuesday, 27 Oct 2026</div>
             </div>
 
-            <!-- ACTION ICON BAR (Search, Share, User Profile, Language) -->
-            <div class="top-action-bar flex items-center space-x-1">
-                <button class="w-9 h-9 rounded-lg hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" title="Search">
-                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                </button>
-                <button class="w-9 h-9 rounded-lg hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" title="Share">
-                    <i class="fa-solid fa-share-nodes text-sm"></i>
-                </button>
-                <button class="w-9 h-9 rounded-lg hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" title="User Account">
-                    <i class="fa-solid fa-user-tie text-sm"></i>
-                </button>
-                <button class="px-2.5 h-9 rounded-lg hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center transition cursor-pointer" title="Language Switcher">
-                    TR
-                </button>
-                <button onclick="toggleFullScreen()" class="w-9 h-9 rounded-lg hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" title="Toggle Fullscreen">
-                    <i class="fa-solid fa-expand text-sm"></i>
-                </button>
-            </div>
+            <!-- FULLSCREEN BUTTON ONLY -->
+            <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-xl glass-badge text-white hover:text-qau-azure flex items-center justify-center transition cursor-pointer shadow-sm" title="Toggle Fullscreen">
+                <i class="fa-solid fa-expand text-base"></i>
+            </button>
         </div>
     </header>
 
@@ -235,7 +211,7 @@
             <div class="text-xs text-white font-semibold px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 flex items-center gap-2">
                 <span class="text-qau-azure font-bold" id="current-slide-num">01</span>
                 <span class="text-slate-400">/</span>
-                <span id="total-slides-num">05</span>
+                <span id="total-slides-num">11</span>
                 <span class="hidden sm:inline-block text-slate-200 font-medium ml-2 pl-2 border-l border-white/20" id="current-slide-title">Overview & Vision</span>
             </div>
         </div>
@@ -257,13 +233,18 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // High quality background images (Unsplash & Direct Wikimedia links)
         const heroBackgrounds = [
-            "https://upload.wikimedia.org/wikipedia/commons/0/0f/Quaid-i-Azam_University_Entrance.JPG", // Bab-e-Quaid Entrance
-            "https://upload.wikimedia.org/wikipedia/commons/2/29/Quaid-i-Azam_University_Library.JPG",  // Central Library Building
-            "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1920&q=80", // Research Lab
-            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=80", // Campus Grounds
-            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80"  // Social Sciences & Students
+            "https://upload.wikimedia.org/wikipedia/commons/0/0f/Quaid-i-Azam_University_Entrance.JPG", 
+            "https://upload.wikimedia.org/wikipedia/commons/2/29/Quaid-i-Azam_University_Library.JPG",  
+            "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1920&q=80", 
+            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1920&q=80",
+            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80",
+            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=80",
+            "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80",
+            "https://upload.wikimedia.org/wikipedia/commons/2/29/Quaid-i-Azam_University_Library.JPG",
+            "https://www.qau.edu.pk/wp-content/uploads/2011/10/hostels.png",
+            "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1920&q=80",
+            "https://upload.wikimedia.org/wikipedia/commons/0/0f/Quaid-i-Azam_University_Entrance.JPG"
         ];
 
         const slides = [
@@ -311,6 +292,60 @@
                 headline: "Center for Strategic, Economic & Policy Research",
                 subtext: "International Relations, Economics, Defence & Strategic Studies, History & Anthropology",
                 items: ["School of Politics & IR", "Department of Economics", "Defence & Strategic Studies", "School of Anthropology"]
+            },
+            {
+                id: 6,
+                title: "Research & ORIC",
+                bg: heroBackgrounds[5],
+                duration: 60,
+                headline: "The Engine of National Scientific & Technological Innovation",
+                subtext: "Over PKR 500M+ active research grants, incubation hubs, and high-impact international journal output.",
+                items: ["PKR 500M+ Annual Grants", "3,500+ Annual Research Publications", "Active Technology Incubation Hub", "60+ Registered Patents"]
+            },
+            {
+                id: 7,
+                title: "Admissions & Financial Aid",
+                bg: heroBackgrounds[6],
+                duration: 60,
+                headline: "Open Merit Admissions & Comprehensive Scholarships",
+                subtext: "Offering BS, MPhil & PhD programs with HEC Need-Based & Ehsaas Merit Scholarships.",
+                items: ["BS 4-Year Undergraduate", "MPhil & MS Graduate Programs", "PhD Research Fellowships", "Ehsaas & HEC Scholarships"]
+            },
+            {
+                id: 8,
+                title: "Central Library Hub",
+                bg: heroBackgrounds[7],
+                duration: 60,
+                headline: "Dr. Raziuddin Siddiqui Central Library",
+                subtext: "Housing over 250,000 volumes, full digital repository access, and PERN high-speed connectivity.",
+                items: ["250,000+ Printed Volumes", "HEC Digital Library Access", "24/7 Quiet Reading Lounges", "High-Speed PERN Wi-Fi"]
+            },
+            {
+                id: 9,
+                title: "Campus Life & Hostels",
+                bg: heroBackgrounds[8],
+                duration: 60,
+                headline: "Vibrant Residential Campus Life in Margalla Foothills",
+                subtext: "16 On-campus residential halls, sports complexes, transport fleet, and health services.",
+                items: ["16 Student Residential Hostels", "Central Sports Complex", "Campus Bus Fleet", "24/7 Medical Center"]
+            },
+            {
+                id: 10,
+                title: "Societies & Co-Curriculars",
+                bg: heroBackgrounds[9],
+                duration: 60,
+                headline: "Empowering Student Leadership & Creative Arts",
+                subtext: "QAU Debating Society, Computing Society, Performing Arts, Adventure Club & Green Environmental Club.",
+                items: ["QAU Debating & Literary Society", "Computing & AI Council", "Adventure & Hiking Club", "Performing Arts & Green Club"]
+            },
+            {
+                id: 11,
+                title: "Campus Video Showcase",
+                bg: heroBackgrounds[10],
+                duration: 170,
+                headline: "Quaid-i-Azam University Aerial & Campus Tour",
+                subtext: "Aerial showcase and virtual walkthrough of QAU Islamabad campus.",
+                isVideo: true
             }
         ];
 
@@ -332,78 +367,98 @@
             const currentSlide = slides[currentSlideIndex];
             const stage = document.getElementById('slide-stage');
 
-            // Lightened dark gradient overlay so background photography is clearly visible
             stage.style.backgroundImage = `linear-gradient(to right, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.25) 55%, rgba(15, 23, 42, 0.45) 100%), url('${currentSlide.bg}')`;
 
-            stage.innerHTML = `
-                <div class="hero-enter h-full w-full flex justify-between items-center relative z-10 pl-8 md:pl-14 pr-32">
-                    <div class="max-w-2xl my-auto py-6 pr-4">
-                        ${currentSlide.isOverview ? `
-                            <div class="flex flex-wrap items-center gap-3 mb-4">
-                                <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 text-amber-300 font-extrabold text-xs uppercase tracking-wider shadow-lg">
-                                    <i class="fa-solid fa-trophy text-amber-400 text-base"></i>
-                                    <span>Ranked #1 University in Pakistan (HEC)</span>
-                                </div>
-                                <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 text-qau-azure font-extrabold text-xs uppercase tracking-wider shadow-lg">
-                                    <i class="fa-solid fa-globe text-qau-azure text-base"></i>
-                                    <span>Top 500 QS World University Ranking</span>
-                                </div>
-                            </div>
-                        ` : ''}
+            if (currentSlide.isVideo) {
+                stage.innerHTML = `
+                    <div class="hero-enter h-full w-full p-8 md:p-10 flex flex-col justify-between relative z-10 pr-32">
+                        <div class="max-w-2xl">
+                            <span class="px-3 py-1 rounded-md bg-red-600 text-white text-xs font-bold uppercase tracking-widest mb-2 inline-block shadow">
+                                <i class="fa-solid fa-play-circle mr-1"></i> 2m 50s Video Showcase
+                            </span>
+                            <h2 class="text-2xl md:text-4xl font-black text-white leading-tight tracking-tight drop-shadow-lg">${currentSlide.headline}</h2>
+                            <p class="text-sm md:text-base text-slate-200 mt-1 drop-shadow">${currentSlide.subtext}</p>
+                        </div>
 
-                        <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.12] tracking-tight drop-shadow-lg">
-                            ${currentSlide.headline}
-                        </h2>
-                        <p class="text-base md:text-xl text-slate-100 mt-4 max-w-xl font-medium drop-shadow-md leading-relaxed">
-                            ${currentSlide.subtext}
-                        </p>
-                        
-                        ${currentSlide.isOverview ? `
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 max-w-xl">
-                                <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-amber-400">
-                                    <div class="text-2xl font-black text-amber-400">#1 Rank</div>
-                                    <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">HEC Official Ranking</div>
-                                </div>
-                                <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-qau-azure">
-                                    <div class="text-2xl font-black text-qau-azure">Top 500</div>
-                                    <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">QS World Ranking</div>
-                                </div>
-                                <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-emerald-400">
-                                    <div class="text-2xl font-black text-emerald-400">13,000+</div>
-                                    <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">Enrolled Students</div>
-                                </div>
-                            </div>
-                        ` : ''}
-
-                        ${currentSlide.isVC ? `
-                            <div class="mt-6 glass-card-dark p-5 rounded-2xl border border-white/30 flex flex-col sm:flex-row items-center gap-5 max-w-2xl shadow-2xl">
-                                <div class="w-24 h-24 rounded-full border-2 border-qau-azure overflow-hidden shrink-0 shadow-lg bg-slate-800">
-                                    <img src="vc.png" alt="Prof. Dr. Zafar Nawaz Jaspal" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/200x200/0F2B5B/FFFFFF?text=VC+QAU';">
-                                </div>
-                                <div>
-                                    <p class="text-sm italic text-slate-100 font-serif leading-relaxed drop-shadow">
-                                        "Quaid-i-Azam University remains committed to academic rigour, high-impact scientific research, and serving as the flagship institution of higher learning in Pakistan."
-                                    </p>
-                                    <div class="mt-3 text-xs font-bold text-qau-azure uppercase tracking-wider">
-                                        — Prof. Dr. Zafar Nawaz Jaspal (Vice Chancellor)
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
-
-                        ${currentSlide.items ? `
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 max-w-xl">
-                                ${currentSlide.items.map(item => `
-                                    <div class="glass-card-dark px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-100 flex items-center space-x-2">
-                                        <i class="fa-solid fa-circle-check text-qau-azure"></i>
-                                        <span>${item}</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
+                        <div class="relative w-full flex-1 mt-3 mb-1 bg-black/80 rounded-2xl border border-white/20 overflow-hidden shadow-2xl z-20 flex items-center justify-center">
+                            <video id="qau-campus-video" class="w-full h-full object-cover" autoplay muted playsinline controls>
+                                <source src="qau-1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                stage.innerHTML = `
+                    <div class="hero-enter h-full w-full flex justify-between items-center relative z-10 pl-8 md:pl-14 pr-32">
+                        <div class="max-w-2xl my-auto py-6 pr-4">
+                            ${currentSlide.isOverview ? `
+                                <div class="flex flex-wrap items-center gap-3 mb-4">
+                                    <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 text-amber-300 font-extrabold text-xs uppercase tracking-wider shadow-lg">
+                                        <i class="fa-solid fa-trophy text-amber-400 text-base"></i>
+                                        <span>Ranked #1 University in Pakistan (HEC)</span>
+                                    </div>
+                                    <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 text-qau-azure font-extrabold text-xs uppercase tracking-wider shadow-lg">
+                                        <i class="fa-solid fa-globe text-qau-azure text-base"></i>
+                                        <span>Top 500 QS World University Ranking</span>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.12] tracking-tight drop-shadow-lg">
+                                ${currentSlide.headline}
+                            </h2>
+                            <p class="text-base md:text-xl text-slate-100 mt-4 max-w-xl font-medium drop-shadow-md leading-relaxed">
+                                ${currentSlide.subtext}
+                            </p>
+                            
+                            ${currentSlide.isOverview ? `
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 max-w-xl">
+                                    <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-amber-400">
+                                        <div class="text-2xl font-black text-amber-400">#1 Rank</div>
+                                        <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">HEC Official Ranking</div>
+                                    </div>
+                                    <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-qau-azure">
+                                        <div class="text-2xl font-black text-qau-azure">Top 500</div>
+                                        <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">QS World Ranking</div>
+                                    </div>
+                                    <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-emerald-400">
+                                        <div class="text-2xl font-black text-emerald-400">13,000+</div>
+                                        <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">Enrolled Students</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            ${currentSlide.isVC ? `
+                                <div class="mt-6 glass-card-dark p-5 rounded-2xl border border-white/30 flex flex-col sm:flex-row items-center gap-5 max-w-2xl shadow-2xl">
+                                    <div class="w-24 h-24 rounded-full border-2 border-qau-azure overflow-hidden shrink-0 shadow-lg bg-slate-800">
+                                        <img src="vc.png" alt="Prof. Dr. Zafar Nawaz Jaspal" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://qau.edu.pk/wp-content/uploads/2026/08/21082026new22.jpg';">
+                                    </div>
+                                    <div>
+                                        <p class="text-sm italic text-slate-100 font-serif leading-relaxed drop-shadow">
+                                            "Quaid-i-Azam University remains committed to academic rigour, high-impact scientific research, and serving as the flagship institution of higher learning in Pakistan."
+                                        </p>
+                                        <div class="mt-3 text-xs font-bold text-qau-azure uppercase tracking-wider">
+                                            — Prof. Dr. Zafar Nawaz Jaspal (Vice Chancellor)
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            ${currentSlide.items ? `
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 max-w-xl">
+                                    ${currentSlide.items.map(item => `
+                                        <div class="glass-card-dark px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-100 flex items-center space-x-2">
+                                            <i class="fa-solid fa-circle-check text-qau-azure"></i>
+                                            <span>${item}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
 
             document.getElementById('current-slide-num').innerText = String(currentSlide.id).padStart(2, '0');
             document.getElementById('total-slides-num').innerText = String(slides.length).padStart(2, '0');
@@ -414,6 +469,16 @@
             updateDots();
             updateThumbnails();
             updateProgressBar();
+
+            if (currentSlide.isVideo) {
+                setTimeout(() => {
+                    const videoElem = document.getElementById('qau-campus-video');
+                    if (videoElem) {
+                        videoElem.play().catch(e => console.log('Autoplay handled:', e));
+                        videoElem.onended = () => nextSlide();
+                    }
+                }, 200);
+            }
         }
 
         function renderThumbnails() {
@@ -456,8 +521,16 @@
         }
 
         function updateTimerDisplay() {
-            document.getElementById('timer-countdown').innerText = `${timeRemaining}s`;
-            document.getElementById('slide-timer-mode').innerText = 'AUTO-ADVANCE';
+            const currentSlide = slides[currentSlideIndex];
+            if (currentSlide.isVideo) {
+                const mins = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
+                const secs = String(timeRemaining % 60).padStart(2, '0');
+                document.getElementById('timer-countdown').innerText = `${mins}:${secs}`;
+                document.getElementById('slide-timer-mode').innerText = 'VIDEO SHOWCASE';
+            } else {
+                document.getElementById('timer-countdown').innerText = `${timeRemaining}s`;
+                document.getElementById('slide-timer-mode').innerText = 'AUTO-ADVANCE';
+            }
         }
 
         function updateProgressBar() {
@@ -483,6 +556,11 @@
                 btnIcon.className = 'fa-solid fa-pause text-xs';
             } else {
                 btnIcon.className = 'fa-solid fa-play text-xs';
+            }
+
+            const videoElem = document.getElementById('qau-campus-video');
+            if (videoElem) {
+                isPlaying ? videoElem.play() : videoElem.pause();
             }
         }
 
