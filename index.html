@@ -113,10 +113,11 @@
 
     <!-- HEADER / TOP BAR -->
     <header class="glass-panel rounded-2xl px-6 py-3.5 flex items-center justify-between z-20 border-b border-brand-gold/30 shadow-sm">
-        <!-- University Identity -->
+        <!-- University Identity (WITH LOGO IMAGE) -->
         <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center text-white font-black text-2xl shadow-md border border-amber-300">
-                <i class="fa-solid font-bold">QAU</i>
+            <div class="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-amber-300 overflow-hidden">
+                <!-- Replace 'logo.png' with your actual logo file path or URL -->
+                <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain">
             </div>
             <div>
                 <h1 class="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
@@ -267,7 +268,7 @@
                     </div>
                 `
             },
-            // Slide 2: VC Message
+            // Slide 2: VC Message (WITH VC PHOTO IMAGE)
             {
                 id: 2,
                 title: "Vice-Chancellor's Address",
@@ -289,7 +290,8 @@
                                 <div class="relative group">
                                     <div class="w-44 h-44 rounded-2xl bg-gradient-to-tr from-brand-gold via-amber-400 to-amber-600 p-1.5 shadow-xl">
                                         <div class="w-full h-full rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden border border-slate-200 relative">
-                                            <i class="fa-solid fa-user-tie text-7xl text-slate-400"></i>
+                                            <!-- Replace 'vc-photo.jpg' with your actual VC photo path or URL -->
+                                            <img src="vc.jpg" alt="Prof. Dr. Zafar Nawaz Jaspal" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
