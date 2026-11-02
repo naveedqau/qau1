@@ -75,19 +75,27 @@
             transform: scale(1.05);
         }
 
-        /* RIGHT CIRCULAR THUMBNAILS CONTAINER (BOGAZICI STYLE) */
+        /* RIGHT BOGAZICI-STYLE CURVED DOCK CONTAINER */
         .sidebar-right-nav {
             position: absolute;
             right: 0;
             top: 0;
             bottom: 0;
-            width: 110px;
+            width: 120px;
             z-index: 40;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(to left, rgba(0, 0, 0, 0.35), transparent);
+            gap: 12px;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0.45), transparent);
+        }
+
+        .thumb-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .circle-thumb-item {
@@ -95,19 +103,18 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            margin: -3px 0;
             border: 3px solid rgba(255, 255, 255, 0.7);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
             cursor: pointer;
             overflow: hidden;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             background-color: #0F172A;
+            z-index: 10;
         }
 
         .circle-thumb-item:hover {
             transform: scale(1.1) translateX(-5px);
             border-color: #27ACE2;
-            z-index: 50;
         }
 
         .circle-thumb-item.active {
@@ -116,7 +123,22 @@
             border: 4px solid #ffffff;
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 8px 24px rgba(0, 0, 0, 0.6);
             transform: scale(1.08) translateX(-10px);
-            z-index: 50;
+        }
+
+        /* BOGAZICI WHITE CURVED BACKDROP CUTOUT FOR ACTIVE ITEM */
+        .active-curve-backdrop {
+            position: absolute;
+            right: 0;
+            width: 90px;
+            height: 96px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+            pointer-events: none;
+            transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
         }
 
         .hero-enter {
@@ -169,7 +191,7 @@
                 <div class="text-[10px] uppercase tracking-widest text-slate-300 font-semibold" id="digital-date">Tuesday, 27 Oct 2026</div>
             </div>
 
-            <!-- FULLSCREEN BUTTON ONLY -->
+            <!-- FULLSCREEN BUTTON -->
             <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-xl glass-badge text-white hover:text-qau-azure flex items-center justify-center transition cursor-pointer shadow-sm" title="Toggle Fullscreen">
                 <i class="fa-solid fa-expand text-base"></i>
             </button>
@@ -182,13 +204,15 @@
             <!-- Content Dynamically Rendered via JS -->
         </div>
 
-        <!-- RIGHT SIDEBAR FLOATING CIRCULAR THUMBNAILS -->
+        <!-- RIGHT SIDEBAR FLOATING CIRCULAR THUMBNAILS (BOGAZICI STYLE DOCK) -->
         <div class="sidebar-right-nav" id="sidebar-thumbnails">
-            <!-- Populated dynamically by JS -->
+            <!-- Curved white backdrop shape for active thumbnail -->
+            <div id="active-curve-backdrop" class="active-curve-backdrop"></div>
+            <!-- Thumbnails rendered dynamically -->
         </div>
 
-        <!-- FLOATING ACCESSIBILITY BUTTON (BOTTOM RIGHT) -->
-        <button class="absolute bottom-6 right-28 w-14 h-14 rounded-full bg-sky-500 hover:bg-sky-400 border-2 border-white text-white flex items-center justify-center shadow-2xl z-40 transition transform hover:scale-105" title="Accessibility Options">
+        <!-- FLOATING ACCESSIBILITY BUTTON -->
+        <button class="absolute bottom-6 right-36 w-14 h-14 rounded-full bg-sky-500 hover:bg-sky-400 border-2 border-white text-white flex items-center justify-center shadow-2xl z-40 transition transform hover:scale-105" title="Accessibility Options">
             <i class="fa-solid fa-universal-access text-2xl"></i>
         </button>
     </main>
@@ -244,7 +268,7 @@
             "7.jpg",
             "hostel.jpg",
             "4.jpeg",
-            "https://upload.wikimedia.org/wikipedia/commons/0/0f/Quaid-i-Azam_University_Entrance.JPG"
+            "bab.jpg"
         ];
 
         const slides = [
@@ -367,11 +391,11 @@
             const currentSlide = slides[currentSlideIndex];
             const stage = document.getElementById('slide-stage');
 
-            stage.style.backgroundImage = `linear-gradient(to right, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.25) 55%, rgba(15, 23, 42, 0.45) 100%), url('${currentSlide.bg}')`;
+            stage.style.backgroundImage = `linear-gradient(to right, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.3) 55%, rgba(15, 23, 42, 0.5) 100%), url('${currentSlide.bg}')`;
 
             if (currentSlide.isVideo) {
                 stage.innerHTML = `
-                    <div class="hero-enter h-full w-full p-8 md:p-10 flex flex-col justify-between relative z-10 pr-32">
+                    <div class="hero-enter h-full w-full p-8 md:p-10 flex flex-col justify-between relative z-10 pr-36">
                         <div class="max-w-2xl">
                             <span class="px-3 py-1 rounded-md bg-red-600 text-white text-xs font-bold uppercase tracking-widest mb-2 inline-block shadow">
                                 <i class="fa-solid fa-play-circle mr-1"></i> 2m 50s Video Showcase
@@ -390,7 +414,7 @@
                 `;
             } else {
                 stage.innerHTML = `
-                    <div class="hero-enter h-full w-full flex justify-between items-center relative z-10 pl-8 md:pl-14 pr-32">
+                    <div class="hero-enter h-full w-full flex justify-between items-center relative z-10 pl-8 md:pl-14 pr-36">
                         <div class="max-w-2xl my-auto py-6 pr-4">
                             ${currentSlide.isOverview ? `
                                 <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -476,29 +500,53 @@
                     if (videoElem) {
                         videoElem.play().catch(e => console.log('Autoplay handled:', e));
                         videoElem.onended = () => nextSlide();
+
+                        // TRIGGER FULLSCREEN ON SLIDE 11 VIDEO PLAYBACK
+                        if (videoElem.requestFullscreen) {
+                            videoElem.requestFullscreen().catch(err => console.log('Fullscreen blocked by browser policy:', err));
+                        } else if (videoElem.webkitRequestFullscreen) {
+                            videoElem.webkitRequestFullscreen();
+                        }
                     }
-                }, 200);
+                }, 300);
             }
         }
 
         function renderThumbnails() {
             const container = document.getElementById('sidebar-thumbnails');
+            const backdrop = document.getElementById('active-curve-backdrop');
+            
+            // Keep backdrop element intact
             container.innerHTML = '';
+            container.appendChild(backdrop);
+
             slides.forEach((slide, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'thumb-wrapper';
+
                 const thumb = document.createElement('div');
                 thumb.className = `circle-thumb-item ${index === currentSlideIndex ? 'active' : ''}`;
                 thumb.onclick = () => loadSlide(index);
                 thumb.title = slide.title;
                 thumb.innerHTML = `<img src="${slide.bg}" class="w-full h-full object-cover">`;
-                container.appendChild(thumb);
+
+                wrapper.appendChild(thumb);
+                container.appendChild(wrapper);
             });
         }
 
         function updateThumbnails() {
-            const thumbs = document.getElementById('sidebar-thumbnails').children;
-            Array.from(thumbs).forEach((thumb, index) => {
+            const wrappers = document.querySelectorAll('.thumb-wrapper');
+            const backdrop = document.getElementById('active-curve-backdrop');
+
+            wrappers.forEach((wrapper, index) => {
+                const thumb = wrapper.querySelector('.circle-thumb-item');
                 if (index === currentSlideIndex) {
                     thumb.classList.add('active');
+                    // Move the curved backdrop behind the active thumbnail
+                    if (backdrop && wrapper.offsetTop) {
+                        backdrop.style.top = `${wrapper.offsetTop - 10}px`;
+                    }
                 } else {
                     thumb.classList.remove('active');
                 }
