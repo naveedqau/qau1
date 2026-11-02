@@ -75,6 +75,16 @@
             transform: scale(1.05);
         }
 
+        /* AUTO-HIDE FOOTER STYLING */
+        #auto-hide-footer {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body.hide-footer #auto-hide-footer {
+            opacity: 0;
+            transform: translateY(100%);
+            pointer-events: none;
+        }
+
         /* RIGHT BOGAZICI-STYLE CURVED DOCK CONTAINER */
         .sidebar-right-nav {
             position: absolute;
@@ -217,8 +227,8 @@
         </button>
     </main>
 
-    <!-- FOOTER CONTROLS -->
-    <footer class="w-full px-6 py-2.5 flex flex-col md:flex-row items-center justify-between z-30 gap-3 relative">
+    <!-- FOOTER CONTROLS (AUTO-HIDE ENABLED) -->
+    <footer id="auto-hide-footer" class="w-full px-6 py-2.5 flex flex-col md:flex-row items-center justify-between z-30 gap-3 relative glass-card-dark rounded-t-2xl">
         <div class="flex items-center space-x-4 w-full md:w-auto">
             <div class="flex items-center space-x-2">
                 <button onclick="prevSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center cursor-pointer">
@@ -377,6 +387,7 @@
         let isPlaying = true;
         let timeRemaining = slides[0].duration;
         let timerInterval = null;
+        let footerHideTimeout = null;
 
         window.onload = function() {
             renderDots();
@@ -384,7 +395,26 @@
             loadSlide(currentSlideIndex);
             startClock();
             startTimer();
+            initFooterAutoHider();
         };
+
+        // AUTO-HIDE FOOTER ACTIVITY LISTENER
+        function initFooterAutoHider() {
+            const resetFooterTimer = () => {
+                document.body.classList.remove('hide-footer');
+                clearTimeout(footerHideTimeout);
+                footerHideTimeout = setTimeout(() => {
+                    document.body.classList.add('hide-footer');
+                }, 3000); // Hides after 3 seconds of inactivity
+            };
+
+            window.addEventListener('mousemove', resetFooterTimer);
+            window.addEventListener('click', resetFooterTimer);
+            window.addEventListener('touchstart', resetFooterTimer);
+            window.addEventListener('keydown', resetFooterTimer);
+
+            resetFooterTimer();
+        }
 
         function loadSlide(index) {
             currentSlideIndex = index;
