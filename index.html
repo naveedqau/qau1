@@ -43,7 +43,7 @@
 
         .hero-bg-container {
             background-size: cover;
-            background-position: center;
+            background-position: center top;
             background-repeat: no-repeat;
             transition: background-image 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -391,6 +391,8 @@
             const currentSlide = slides[currentSlideIndex];
             const stage = document.getElementById('slide-stage');
 
+            // Set top alignment for bab1.jpg to prevent cropping the top calligraphy dome
+            stage.style.backgroundPosition = (currentSlide.bg === 'bab1.jpg' || index === 0) ? 'center top' : 'center center';
             stage.style.backgroundImage = `linear-gradient(to right, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.3) 55%, rgba(15, 23, 42, 0.5) 100%), url('${currentSlide.bg}')`;
 
             if (currentSlide.isVideo) {
