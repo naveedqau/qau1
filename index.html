@@ -369,23 +369,23 @@
                 { region: "AJK", percent: 2.0, color: "#84cc16" }
             ],
             alumni: [
-                { name: "Maleeha Lodhi", role: "Diplomat", category: "Diplomacy" },
-                { name: "Shamshad Akhtar", role: "Economist", category: "Economy" },
-                { name: "Tehmina Janjua", role: "Diplomat", category: "Diplomacy" },
-                { name: "Ashraf Wathra", role: "Governor State Bank", category: "Economy" },
-                { name: "Salma Zahid", role: "Canadian MP", category: "Politics" },
-                { name: "Abdul Basit", role: "Diplomat", category: "Diplomacy" },
-                { name: "Naila Chohan", role: "Diplomat", category: "Diplomacy" },
-                { name: "Muhammad Zakaullah", role: "Admiral / Navy Chief", category: "Defence" },
-                { name: "Dr. Ansar Pervaiz", role: "Scientist", category: "Science" },
-                { name: "Dr. Irshad Hussain", role: "Scientist", category: "Science" },
-                { name: "Samina Yasmeen", role: "Political Expert", category: "Academia" },
-                { name: "Marriyum Aurangzeb", role: "Pak Politician/Minister", category: "Politics" },
-                { name: "Qamar-uz-Zaman Ch.", role: "Scientist", category: "Science" },
-                { name: "Ibrar ul Haq", role: "Singer", category: "Arts" },
-                { name: "Hamza Ali Abbasi", role: "Actor", category: "Arts" },
-                { name: "Naseem Zehra", role: "Anchor/Journalist", category: "Media" }
-            ]
+            { name: "Maleeha Lodhi", role: "Diplomat", category: "Diplomacy", img: "alumni/maleeha.jpg" },
+            { name: "Shamshad Akhtar", role: "Economist", category: "Economy", img: "alumni/shamshad.jpg" },
+            { name: "Tehmina Janjua", role: "Diplomat", category: "Diplomacy", img: "alumni/tehmina.jpg" },
+            { name: "Ashraf Wathra", role: "Governor State Bank", category: "Economy", img: "alumni/ashraf.jpg" },
+            { name: "Salma Zahid", role: "Canadian MP", category: "Politics", img: "alumni/salma.jpg" },
+            { name: "Abdul Basit", role: "Diplomat", category: "Diplomacy", img: "alumni/basit.jpg" },
+            { name: "Naila Chohan", role: "Diplomat", category: "Diplomacy", img: "alumni/naila.jpg" },
+            { name: "Muhammad Zakaullah", role: "Admiral / Navy Chief", category: "Defence", img: "alumni/zakaullah.jpg" },
+            { name: "Dr. Ansar Pervaiz", role: "Scientist", category: "Science", img: "alumni/ansar.jpg" },
+            { name: "Dr. Irshad Hussain", role: "Scientist", category: "Science", img: "alumni/irshad.jpg" },
+            { name: "Samina Yasmeen", role: "Political Expert", category: "Academia", img: "alumni/samina.jpg" },
+            { name: "Marriyum Aurangzeb", role: "Pak Politician/Minister", category: "Politics", img: "alumni/marriyum.jpg" },
+            { name: "Qamar-uz-Zaman Ch.", role: "Scientist", category: "Science", img: "alumni/qamar.jpg" },
+            { name: "Ibrar ul Haq", role: "Singer", category: "Arts", img: "alumni/ibrar.jpg" },
+            { name: "Hamza Ali Abbasi", role: "Actor", category: "Arts", img: "alumni/hamza.jpg" },
+            { name: "Naseem Zehra", role: "Anchor/Journalist", category: "Media", img: "alumni/naseem.jpg" }
+        ]
         };
 
         const slides = [
@@ -794,14 +794,13 @@
                             <h2 class="text-2xl md:text-3xl font-black text-white">Notable Alumni of QAU</h2>
                         </div>
                     </div>
-
+        
                     <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-2.5 max-h-[340px] overflow-y-auto custom-scroll pr-1 pb-2">
-                        ${presentationData.alumni.map(a => {
-                            const initials = a.name.split(' ').map(n => n[0]).slice(0, 2).join('');
-                            return `
+                        ${presentationData.alumni.map(a => `
                             <div class="glass-card-dark p-2.5 rounded-xl flex items-center space-x-2.5 hover:border-amber-400/50 transition border border-white/10">
-                                <div class="w-9 h-9 rounded-full border border-amber-400/60 bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0">
-                                    ${initials}
+                                <div class="w-10 h-10 rounded-full border-2 border-amber-400/60 overflow-hidden bg-slate-800 shrink-0">
+                                    <img src="${a.img}" alt="${a.name}" class="w-full h-full object-cover" 
+                                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(a.name)}&background=0b1d3a&color=f59e0b';">
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <div class="text-xs font-bold text-white truncate" title="${a.name}">${a.name}</div>
@@ -809,12 +808,11 @@
                                     <div class="text-[9px] text-slate-400 uppercase tracking-wider leading-tight">${a.category}</div>
                                 </div>
                             </div>
-                        `}).join('')}
+                        `).join('')}
                     </div>
                 </div>
             `;
         }
-
         function renderSlideVideo() {
             return `
                 <div class="hero-enter h-full w-full relative z-10 overflow-hidden rounded-xl">
