@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quaid-i-Azam University (QAU) - Academic Showcase Kiosk</title>
+    <title>Quaid-i-Azam University (QAU) - Interactive Showcase</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         qau: {
-                            navy: '#0F2B5B',
-                            gold: '#F59E0B',
-                            azure: '#27ACE2',
-                            emerald: '#10B981',
-                            dark: '#0F172A'
+                            navy: '#0b1d3a',
+                            deep: '#061024',
+                            gold: '#f59e0b',
+                            azure: '#0284c7',
+                            sky: '#38bdf8',
+                            emerald: '#10b981',
+                            rose: '#f43f5e'
                         }
                     },
                     fontFamily: {
@@ -31,11 +34,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0B0F19;
+            background-color: #030712;
             color: #FFFFFF;
             overflow: hidden;
             user-select: none;
@@ -49,46 +54,46 @@
         }
 
         .glass-badge {
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         .glass-card-dark {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(11, 23, 48, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
         .glass-circle-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             transition: all 0.2s ease;
         }
         .glass-circle-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
         }
 
-        /* RIGHT BOGAZICI-STYLE CURVED DOCK CONTAINER */
+        /* RIGHT SIDEBAR BOGAZICI CURVED DOCK CONTAINER */
         .sidebar-right-nav {
             position: absolute;
             right: 0;
             top: 0;
             bottom: 0;
-            width: 120px;
+            width: 110px;
             z-index: 40;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            background: linear-gradient(to left, rgba(0, 0, 0, 0.45), transparent);
+            gap: 10px;
+            background: linear-gradient(to left, rgba(3, 7, 18, 0.85), transparent);
         }
 
         .thumb-wrapper {
@@ -100,176 +105,288 @@
 
         .circle-thumb-item {
             position: relative;
-            width: 64px;
-            height: 64px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
             cursor: pointer;
             overflow: hidden;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background-color: #0F172A;
+            background-color: #0b1d3a;
             z-index: 10;
         }
 
         .circle-thumb-item:hover {
-            transform: scale(1.1) translateX(-5px);
-            border-color: #27ACE2;
+            transform: scale(1.15) translateX(-6px);
+            border-color: #38bdf8;
         }
 
         .circle-thumb-item.active {
-            width: 76px;
-            height: 76px;
-            border: 4px solid #ffffff;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 8px 24px rgba(0, 0, 0, 0.6);
-            transform: scale(1.08) translateX(-10px);
+            width: 66px;
+            height: 66px;
+            border: 3.5px solid #f59e0b;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7), 0 8px 24px rgba(0, 0, 0, 0.7);
+            transform: scale(1.08) translateX(-8px);
         }
 
-        /* BOGAZICI WHITE CURVED BACKDROP CUTOUT FOR ACTIVE ITEM */
         .active-curve-backdrop {
             position: absolute;
             right: 0;
-            width: 90px;
-            height: 96px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top-left-radius: 50px;
-            border-bottom-left-radius: 50px;
+            width: 85px;
+            height: 84px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top-left-radius: 42px;
+            border-bottom-left-radius: 42px;
             pointer-events: none;
             transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 5;
+            border-left: 2px solid rgba(245, 158, 11, 0.5);
         }
 
         .hero-enter {
-            animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: heroFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes heroFadeIn {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(12px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .progress-bar-fill {
             transition: width 0.1s linear;
         }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.4);
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.8);
+        }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col justify-between p-4 bg-slate-950 text-white overflow-hidden relative">
+<body class="h-screen w-screen flex flex-col justify-between p-3 md:p-4 bg-slate-950 text-white overflow-hidden relative">
 
     <!-- TOP BAR / HEADER -->
-    <header class="w-full px-6 py-3 flex items-center justify-between z-30 relative">
-        <div class="flex items-center space-x-4">
-            <button class="text-white hover:text-qau-azure text-2xl transition-colors cursor-pointer" title="Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-full bg-white p-1 flex items-center justify-center shadow-lg border border-white/40 overflow-hidden shrink-0">
+    <header class="w-full px-4 md:px-6 py-2.5 flex items-center justify-between z-30 relative glass-badge rounded-2xl mb-2">
+        <div class="flex items-center space-x-3 md:space-x-4 min-w-0">
+            <div class="flex items-center space-x-3 min-w-0">
+                <div class="w-11 h-11 rounded-full bg-white p-1 flex items-center justify-center shadow-md border-2 border-amber-400 shrink-0 overflow-hidden">
                     <img src="logo.jpg" alt="QAU Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://qau.edu.pk/wp-content/uploads/2020/09/qaulogo.png';">
                 </div>
-                <div class="leading-tight">
-                    <h1 class="text-lg md:text-xl font-black tracking-wider text-white uppercase drop-shadow-md">
-                        Quaid-i-Azam University
+                <div class="leading-tight min-w-0">
+                    <h1 class="text-base md:text-lg lg:text-xl font-black tracking-wide text-white uppercase whitespace-nowrap flex items-center gap-2">
+                        <span>Quaid-i-Azam University</span>
+                        <span class="text-xs bg-amber-500/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded-full font-semibold hidden lg:inline-block">Islamabad</span>
                     </h1>
-                    <p class="text-[10px] text-slate-200 font-semibold tracking-widest uppercase drop-shadow">Islamabad, Pakistan</p>
+                    <p class="text-[10px] md:text-xs text-amber-400 font-semibold tracking-wider uppercase truncate">Premier Research Institution of Pakistan • Est. 1967</p>
                 </div>
             </div>
         </div>
 
-        <div class="flex items-center space-x-4">
-            <!-- Weather Badge -->
-            <div class="hidden sm:flex items-center space-x-3 glass-badge px-4 py-2 rounded-xl shadow-sm">
-                <i class="fa-solid fa-cloud-sun text-qau-azure text-xl"></i>
+        <!-- Info Badges & Fullscreen -->
+        <div class="flex items-center space-x-3 shrink-0">
+            <div class="hidden sm:flex items-center space-x-2.5 bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-xl">
+                <i class="fa-solid fa-sun text-amber-400 text-lg"></i>
                 <div class="text-left">
-                    <div class="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">Islamabad, PK</div>
-                    <div class="text-xs font-bold text-white">24°C • Mostly Sunny</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Islamabad</div>
+                    <div class="text-xs font-bold text-white">24°C • Sunny</div>
                 </div>
             </div>
 
-            <!-- Digital Clock Badge -->
-            <div class="glass-badge px-5 py-2 rounded-xl text-right shadow-sm border-l-2 border-l-qau-azure">
-                <div class="text-base font-black tracking-wider text-qau-azure font-mono" id="digital-clock">00:00:00 AM</div>
-                <div class="text-[10px] uppercase tracking-widest text-slate-300 font-semibold" id="digital-date">Tuesday, 27 Oct 2026</div>
+            <div class="bg-slate-900/90 border-l-2 border-l-amber-400 px-3.5 py-1 rounded-xl text-right">
+                <div class="text-xs md:text-sm font-black tracking-wider text-amber-300 font-mono" id="digital-clock">00:00:00 AM</div>
+                <div class="text-[9px] uppercase tracking-widest text-slate-400 font-medium" id="digital-date">Tuesday, Nov 10</div>
             </div>
 
-            <!-- FULLSCREEN BUTTON -->
-            <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-xl glass-badge text-white hover:text-qau-azure flex items-center justify-center transition cursor-pointer shadow-sm" title="Toggle Fullscreen">
-                <i class="fa-solid fa-expand text-base"></i>
+            <button onclick="toggleFullScreen()" class="w-9 h-9 rounded-xl glass-circle-btn text-white hover:text-amber-400 flex items-center justify-center transition cursor-pointer" title="Toggle Fullscreen">
+                <i class="fa-solid fa-expand text-sm"></i>
             </button>
         </div>
     </header>
 
     <!-- MAIN HERO STAGE -->
-    <main class="flex-1 relative z-10 overflow-hidden rounded-2xl border border-white/30 shadow-2xl my-2">
+    <main class="flex-1 relative z-10 overflow-hidden rounded-2xl border border-white/20 shadow-2xl my-1 bg-slate-900">
         <div id="slide-stage" class="w-full h-full relative hero-bg-container">
-            <!-- Content Dynamically Rendered via JS -->
+            <!-- Dynamically populated slide content -->
         </div>
 
-        <!-- RIGHT SIDEBAR FLOATING CIRCULAR THUMBNAILS (BOGAZICI STYLE DOCK) -->
+        <!-- RIGHT SIDEBAR FLOATING CIRCULAR DOCK THUMBNAILS -->
         <div class="sidebar-right-nav" id="sidebar-thumbnails">
-            <!-- Curved white backdrop shape for active thumbnail -->
             <div id="active-curve-backdrop" class="active-curve-backdrop"></div>
-            <!-- Thumbnails rendered dynamically -->
         </div>
-
-        <!-- FLOATING ACCESSIBILITY BUTTON -->
-        <button class="absolute bottom-6 right-36 w-14 h-14 rounded-full bg-sky-500 hover:bg-sky-400 border-2 border-white text-white flex items-center justify-center shadow-2xl z-40 transition transform hover:scale-105" title="Accessibility Options">
-            <i class="fa-solid fa-universal-access text-2xl"></i>
-        </button>
     </main>
 
-    <!-- FOOTER CONTROLS (ALWAYS VISIBLE - AUTO-HIDE REMOVED) -->
-    <footer id="app-footer" class="w-full px-6 py-2.5 flex flex-col md:flex-row items-center justify-between z-30 gap-3 relative glass-card-dark rounded-t-2xl">
-        <div class="flex items-center space-x-4 w-full md:w-auto">
+    <!-- FOOTER CONTROLS -->
+    <footer id="app-footer" class="w-full px-4 md:px-6 py-2 flex flex-col md:flex-row items-center justify-between z-30 gap-2 relative glass-card-dark rounded-2xl border border-white/10">
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
             <div class="flex items-center space-x-2">
-                <button onclick="prevSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center cursor-pointer">
+                <button onclick="prevSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center cursor-pointer hover:border-amber-400">
                     <i class="fa-solid fa-chevron-left text-xs"></i>
                 </button>
-                <button id="play-pause-btn" onclick="togglePlayPause()" class="w-9 h-9 rounded-full bg-qau-azure text-slate-900 font-black flex items-center justify-center shadow cursor-pointer">
+                <button id="play-pause-btn" onclick="togglePlayPause()" class="w-9 h-9 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black flex items-center justify-center shadow-lg transition cursor-pointer">
                     <i class="fa-solid fa-pause text-xs" id="play-pause-icon"></i>
                 </button>
-                <button onclick="nextSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center cursor-pointer">
+                <button onclick="nextSlide()" class="w-9 h-9 rounded-full glass-circle-btn text-white flex items-center justify-center cursor-pointer hover:border-amber-400">
                     <i class="fa-solid fa-chevron-right text-xs"></i>
                 </button>
             </div>
 
-            <div class="text-xs text-white font-semibold px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 flex items-center gap-2">
-                <span class="text-qau-azure font-bold" id="current-slide-num">01</span>
-                <span class="text-slate-400">/</span>
-                <span id="total-slides-num">11</span>
-                <span class="hidden sm:inline-block text-slate-200 font-medium ml-2 pl-2 border-l border-white/20" id="current-slide-title">Overview & Vision</span>
+            <div class="text-xs text-white font-semibold px-3 py-1.5 rounded-full bg-white/10 border border-white/15 flex items-center gap-2">
+                <span class="text-amber-400 font-bold font-mono" id="current-slide-num">01</span>
+                <span class="text-slate-500">/</span>
+                <span class="text-slate-300 font-mono" id="total-slides-num">11</span>
+                <span class="hidden sm:inline-block text-slate-200 font-medium ml-2 pl-2 border-l border-white/20 truncate max-w-[200px]" id="current-slide-title">Overview & Vision</span>
             </div>
         </div>
 
-        <!-- Progress Bar & Timer Countdown -->
-        <div class="flex-1 mx-4 max-w-xl w-full">
+        <div class="flex-1 mx-3 max-w-xl w-full">
             <div class="flex justify-between items-center text-[10px] text-slate-300 mb-1 font-mono">
-                <span id="slide-timer-mode" class="tracking-widest">AUTO-ADVANCE</span>
-                <span id="timer-countdown" class="font-bold">15s</span>
+                <span id="slide-timer-mode" class="tracking-widest text-amber-400/90 font-semibold">AUTO ADVANCE</span>
+                <span id="timer-countdown" class="font-bold text-amber-300">15s</span>
             </div>
-            <div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden p-0.5">
-                <div id="progress-bar" class="bg-qau-azure h-full rounded-full w-0 progress-bar-fill"></div>
+            <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden p-0.5 border border-white/10">
+                <div id="progress-bar" class="bg-gradient-to-r from-amber-500 to-sky-400 h-full rounded-full w-0 progress-bar-fill"></div>
             </div>
         </div>
 
-        <!-- Direct Navigation Jump Dots -->
         <div class="flex items-center space-x-1.5 overflow-x-auto max-w-xs py-1" id="dots-container"></div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- MAIN KIOSK LOGIC & DATA -->
     <script>
         const heroBackgrounds = [
             "bab1.jpg", 
             "vc-msg.jpg",  
+            "7.jpg", 
             "2.jpg", 
             "3.jpg",
             "5.jpg",
             "1.jpg",
-            "7.jpg",
             "6.jpeg",
             "hostel11.jpg",
             "4.jpg",
             "8.jpg"
         ];
+
+        const presentationData = {
+            overview: {
+                title: "Quaid-i-Azam University Islamabad",
+                established: 1967,
+                area: "1,709 Acres",
+                mission: "Taking Pakistan forward by providing an affordable, high-standard education to students from all corners of the country, creating interprovincial harmony, and transforming into a knowledge-based economy.",
+                coreStats: [
+                    { label: "Research Publications", val: "9,119", sub: "Impact Factor Journals", icon: "fa-book-bookmark", color: "text-amber-400" },
+                    { label: "Faculty PhD Degree", val: "90%", sub: "Highly Qualified", icon: "fa-graduation-cap", color: "text-sky-400" },
+                    { label: "Foreign Qualified", val: "80%", sub: "International Experience", icon: "fa-globe", color: "text-emerald-400" },
+                    { label: "Postgraduate Body", val: "36%", sub: "M.Phil & Ph.D Scholars", icon: "fa-user-graduate", color: "text-teal-400" },
+                    { label: "Scholarships Given", val: "4,157", sub: "Worth Rs. 127 Million", icon: "fa-hand-holding-dollar", color: "text-rose-400" },
+                    { label: "Financial Assistance", val: "40%", sub: "Student Beneficiaries", icon: "fa-users", color: "text-amber-300" }
+                ]
+            },
+            faculties: [
+                {
+                    key: "natural",
+                    title: "Faculty of Natural Sciences",
+                    totalStudents: 2565,
+                    gender: { male: 55.8, female: 44.2, maleCount: 1430, femaleCount: 1135 },
+                    facultyCount: { total: 111, male: 91, female: 20 },
+                    enrollment: { bs: 55, mphil: 32, phd: 13 },
+                    departments: [
+                        { name: "Department of Chemistry", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Computer Sciences", degrees: "BS, MPhil/MS(IST), PhD" },
+                        { name: "Department of Earth Sciences", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Electronics", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Mathematics", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Physics", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Statistics", degrees: "BS, MPhil, PhD" },
+                        { name: "Institute of Information Technology", degrees: "BS, MS" }
+                    ],
+                    message: "We seek to explain rules governing the natural world through rigorous research and scientific method."
+                },
+                {
+                    key: "bio",
+                    title: "Faculty of Biological Sciences",
+                    totalStudents: 3261,
+                    gender: { male: 33.5, female: 66.5, maleCount: 1094, femaleCount: 2167 },
+                    facultyCount: { total: 88, male: 60, female: 28 },
+                    enrollment: { bs: 65, mphil: 24, phd: 11 },
+                    departments: [
+                        { name: "Department of Biochemistry", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Biotechnology", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Environmental Sciences", degrees: "BS, MPhil, PhD" },
+                        { name: "National Centre for Bioinformatics", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Microbiology", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Plant Sciences", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Pharmacy", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Zoology", degrees: "BS, MPhil, PhD" }
+                    ],
+                    message: "Vibrant faculty performing cutting-edge research addressing questions in medicine, biotechnology, pharmacology, and life sciences."
+                },
+                {
+                    key: "social",
+                    title: "Faculty of Social Sciences",
+                    totalStudents: 5892,
+                    gender: { male: 64.9, female: 35.1, maleCount: 3823, femaleCount: 2069 },
+                    facultyCount: { total: 77, male: 50, female: 27 },
+                    enrollment: { bs: 76, mphil: 17, phd: 7 },
+                    departments: [
+                        { name: "Department of Anthropology", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of Defense & Strategic Studies", degrees: "BS, MPhil, PhD" },
+                        { name: "Department of English", degrees: "BS, MPhil" },
+                        { name: "Department of History", degrees: "BS, MPhil, PhD" },
+                        { name: "School of Economics", degrees: "BS, MPhil, PhD" },
+                        { name: "School of Politics & IR", degrees: "BS, MPhil, PhD" },
+                        { name: "QAU School of Management Sciences", degrees: "BS, MPhil, PhD" },
+                        { name: "School of Law", degrees: "BS" },
+                        { name: "School of Sociology", degrees: "BS, MPhil, PhD" },
+                        { name: "Area Study Center (Africa, N&S America)", degrees: "BS, MPhil, PhD" },
+                        { name: "Center of Excellence in Gender Studies", degrees: "BS, MPhil" },
+                        { name: "National Institute of Pakistan Studies (NIPS)", degrees: "BS, MPhil, PhD" },
+                        { name: "National Institute of Psychology", degrees: "BS, MPhil, PhD" },
+                        { name: "Nat. Inst. of Historical & Cultural Research", degrees: "BS, MPhil, PhD" },
+                        { name: "Taxila Institute of Asian Civilization", degrees: "BS, MPhil, PhD" }
+                    ],
+                    message: "Academic heart of QAU. Promoting critical thinking, political insights, cultural awareness, and social uplifting."
+                }
+            ],
+            quota: [
+                { region: "Punjab (incl. Federal Capital)", percent: 50.0, color: "#4d7c0f" },
+                { region: "Sindh (Urban & Rural)", percent: 19.0, color: "#ca8a04" },
+                { region: "KPK", percent: 11.5, color: "#c2410c" },
+                { region: "Open Merit", percent: 7.5, color: "#65a30d" },
+                { region: "Balochistan", percent: 6.0, color: "#b91c1c" },
+                { region: "FATA", percent: 4.0, color: "#78716c" },
+                { region: "AJK", percent: 2.0, color: "#84cc16" }
+            ],
+            alumni: [
+                { name: "Maleeha Lodhi", role: "Diplomat", category: "Diplomacy" },
+                { name: "Shamshad Akhtar", role: "Economist", category: "Economy" },
+                { name: "Tehmina Janjua", role: "Diplomat", category: "Diplomacy" },
+                { name: "Ashraf Wathra", role: "Governor State Bank", category: "Economy" },
+                { name: "Salma Zahid", role: "Canadian MP", category: "Politics" },
+                { name: "Abdul Basit", role: "Diplomat", category: "Diplomacy" },
+                { name: "Naila Chohan", role: "Diplomat", category: "Diplomacy" },
+                { name: "Muhammad Zakaullah", role: "Admiral / Navy Chief", category: "Defence" },
+                { name: "Dr. Ansar Pervaiz", role: "Scientist", category: "Science" },
+                { name: "Dr. Irshad Hussain", role: "Scientist", category: "Science" },
+                { name: "Samina Yasmeen", role: "Political Expert", category: "Academia" },
+                { name: "Marriyum Aurangzeb", role: "Pak Politician/Minister", category: "Politics" },
+                { name: "Qamar-uz-Zaman Ch.", role: "Scientist", category: "Science" },
+                { name: "Ibrar ul Haq", role: "Singer", category: "Arts" },
+                { name: "Hamza Ali Abbasi", role: "Actor", category: "Arts" },
+                { name: "Naseem Zehra", role: "Anchor/Journalist", category: "Media" }
+            ]
+        };
 
         const slides = [
             {
@@ -277,99 +394,78 @@
                 title: "Overview & Vision",
                 bg: heroBackgrounds[0],
                 duration: 15,
-                headline: "Pakistan's Premier Higher Education Institution",
-                subtext: "Founded in 1967 at the Margalla foothills, Quaid-i-Azam University leads national scientific discovery and academic scholarship.",
-                isOverview: true
+                render: renderSlideOverview
             },
             {
                 id: 2,
-                title: "Vice-Chancellor's Address",
+                title: "Vice-Chancellor & Rankings",
                 bg: heroBackgrounds[1],
                 duration: 15,
-                headline: "Pioneering Academic Excellence & Global Innovation",
-                subtext: "Prof. Dr. Zafar Nawaz Jaspal — Vice-Chancellor, Quaid-i-Azam University",
-                isVC: true
+                render: renderSlideVCAndRankings
             },
             {
                 id: 3,
-                title: "Faculty of Natural Sciences",
+                title: "Admissions Regional Quota",
                 bg: heroBackgrounds[2],
                 duration: 15,
-                headline: "Leading Theoretical & Applied Physical Sciences",
-                subtext: "Physics, Chemistry, Computer Science, Mathematics, Statistics & Earth Sciences",
-                items: ["Department of Physics", "Department of Computer Science", "Department of Chemistry", "Department of Mathematics", "Department of Earth Science", "Department of Information Technology", "Department of Electronics"]
+                render: renderSlideQuota
             },
             {
                 id: 4,
-                title: "Faculty of Biological Sciences",
+                title: "Faculty of Natural Sciences",
                 bg: heroBackgrounds[3],
                 duration: 15,
-                headline: "Advanced Molecular, Plant & Life Sciences Research",
-                subtext: "Biochemistry, Microbiology, Pharmacy, Environmental Sciences, Zoology & Plant Sciences",
-                items: ["National Center for Bioinformatics", "Department of Pharmacy", "Department of Biotechnology", "Department of Zoology"]
+                render: () => renderSlideFaculty(presentationData.faculties[0])
             },
             {
                 id: 5,
-                title: "Faculty of Social Sciences",
+                title: "Faculty of Biological Sciences",
                 bg: heroBackgrounds[4],
                 duration: 15,
-                headline: "Center for Strategic, Economic & Policy Research",
-                subtext: "International Relations, Economics, Defence & Strategic Studies, History & Anthropology",
-                items: ["School of Politics & IR", "Department of Economics", "Defence & Strategic Studies", "School of Anthropology"]
+                render: () => renderSlideFaculty(presentationData.faculties[1])
             },
             {
                 id: 6,
-                title: "Research & ORIC",
+                title: "Faculty of Social Sciences",
                 bg: heroBackgrounds[5],
                 duration: 15,
-                headline: "The Engine of National Scientific & Technological Innovation",
-                subtext: "Over PKR 500M+ active research grants, incubation hubs, and high-impact international journal output.",
-                items: ["PKR 500M+ Annual Grants", "3,500+ Annual Research Publications", "Active Technology Incubation Hub", "60+ Registered Patents"]
+                render: () => renderSlideFaculty(presentationData.faculties[2])
             },
             {
                 id: 7,
-                title: "Admissions & Financial Aid",
+                title: "Research & ORIC",
                 bg: heroBackgrounds[6],
                 duration: 15,
-                headline: "Open Merit Admissions & Comprehensive Scholarships",
-                subtext: "Offering BS, MPhil & PhD programs with HEC Need-Based & Ehsaas Merit Scholarships.",
-                items: ["BS 4-Year Undergraduate", "MPhil & MS Graduate Programs", "PhD Research Fellowships", "Ehsaas & HEC Scholarships"]
+                render: renderSlideORIC
             },
             {
                 id: 8,
                 title: "Central Library Hub",
                 bg: heroBackgrounds[7],
                 duration: 15,
-                headline: "Dr. Raziuddin Siddiqui Central Library",
-                subtext: "Housing over 250,000 volumes, full digital repository access, and PERN high-speed connectivity.",
-                items: ["250,000+ Printed Volumes", "HEC Digital Library Access", "24/7 Quiet Reading Lounges", "High-Speed PERN Wi-Fi"]
+                render: renderSlideLibrary
             },
             {
                 id: 9,
                 title: "Campus Life & Hostels",
                 bg: heroBackgrounds[8],
                 duration: 15,
-                headline: "Vibrant Residential Campus Life in Margalla Foothills",
-                subtext: "16 On-campus residential halls, sports complexes, transport fleet, and health services.",
-                items: ["16 Student Residential Hostels", "Central Sports Complex", "Campus Bus Fleet", "24/7 Medical Center"]
+                render: renderSlideHostel
             },
             {
                 id: 10,
-                title: "Societies & Co-Curriculars",
+                title: "Notable Alumni Showcase",
                 bg: heroBackgrounds[9],
-                duration: 15,
-                headline: "Empowering Student Leadership & Creative Arts",
-                subtext: "QAU Debating Society, Computing Society, Performing Arts, Adventure Club & Green Environmental Club.",
-                items: ["QAU Debating & Literary Society", "Computing & AI Council", "Adventure & Hiking Club", "Performing Arts & Green Club"]
+                duration: 18,
+                render: renderSlideAlumni
             },
             {
                 id: 11,
                 title: "Campus Video Showcase",
                 bg: heroBackgrounds[10],
                 duration: 170,
-                headline: "Quaid-i-Azam University Aerial & Campus Tour",
-                subtext: "Aerial showcase and virtual walkthrough of QAU Islamabad campus.",
-                isVideo: true
+                isVideo: true,
+                render: renderSlideVideo
             }
         ];
 
@@ -377,6 +473,7 @@
         let isPlaying = true;
         let timeRemaining = slides[0].duration;
         let timerInterval = null;
+        let activeChart = null;
 
         window.onload = function() {
             renderDots();
@@ -392,95 +489,9 @@
             const stage = document.getElementById('slide-stage');
 
             stage.style.backgroundPosition = (currentSlide.bg === 'bab1.jpg' || index === 0) ? 'center top' : 'center center';
-            stage.style.backgroundImage = `linear-gradient(to right, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.3) 55%, rgba(15, 23, 42, 0.5) 100%), url('${currentSlide.bg}')`;
+            stage.style.backgroundImage = `linear-gradient(to right, rgba(11, 16, 36, 0.88) 0%, rgba(11, 16, 36, 0.55) 55%, rgba(11, 16, 36, 0.82) 100%), url('${currentSlide.bg}')`;
 
-            if (currentSlide.isVideo) {
-                // FULL SCREEN SILENT VIDEO DISPLAY FOR SLIDE 11
-                stage.innerHTML = `
-                    <div class="hero-enter h-full w-full relative z-10 overflow-hidden">
-                        <video id="qau-campus-video" class="w-full h-full object-cover" autoplay muted playsinline loop>
-                            <source src="qau-1.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="absolute bottom-6 left-8 bg-black/60 backdrop-blur-md px-5 py-2.5 rounded-xl border border-white/20 text-white z-20 pointer-events-none">
-                            <h2 class="text-lg font-bold flex items-center gap-2">
-                                <i class="fa-solid fa-video text-qau-azure"></i> ${currentSlide.headline}
-                            </h2>
-                            <p class="text-xs text-slate-300 mt-0.5">${currentSlide.subtext}</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                stage.innerHTML = `
-                    <div class="hero-enter h-full w-full flex justify-between items-center relative z-10 pl-8 md:pl-14 pr-36">
-                        <div class="max-w-2xl my-auto py-6 pr-4">
-                            ${currentSlide.isOverview ? `
-                                <div class="flex flex-wrap items-center gap-3 mb-4">
-                                    <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 text-amber-300 font-extrabold text-xs uppercase tracking-wider shadow-lg">
-                                        <i class="fa-solid fa-trophy text-amber-400 text-base"></i>
-                                        <span>Ranked #1 University in Pakistan (HEC)</span>
-                                    </div>
-                                    <div class="glass-badge px-4 py-2 rounded-full flex items-center gap-2.5 text-qau-azure font-extrabold text-xs uppercase tracking-wider shadow-lg">
-                                        <i class="fa-solid fa-globe text-qau-azure text-base"></i>
-                                        <span>Top 500 QS World University Ranking</span>
-                                    </div>
-                                </div>
-                            ` : ''}
-
-                            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.12] tracking-tight drop-shadow-lg">
-                                ${currentSlide.headline}
-                            </h2>
-                            <p class="text-base md:text-xl text-slate-100 mt-4 max-w-xl font-medium drop-shadow-md leading-relaxed">
-                                ${currentSlide.subtext}
-                            </p>
-                            
-                            ${currentSlide.isOverview ? `
-                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 max-w-xl">
-                                    <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-amber-400">
-                                        <div class="text-2xl font-black text-amber-400">#1 Rank</div>
-                                        <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">HEC Official Ranking</div>
-                                    </div>
-                                    <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-qau-azure">
-                                        <div class="text-2xl font-black text-qau-azure">Top 500</div>
-                                        <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">QS World Ranking</div>
-                                    </div>
-                                    <div class="glass-card-dark p-3.5 rounded-xl border-l-4 border-l-emerald-400">
-                                        <div class="text-2xl font-black text-emerald-400">13,000+</div>
-                                        <div class="text-[10px] uppercase font-bold text-slate-200 mt-0.5">Enrolled Students</div>
-                                    </div>
-                                </div>
-                            ` : ''}
-
-                            ${currentSlide.isVC ? `
-                                <div class="mt-6 glass-card-dark p-5 rounded-2xl border border-white/30 flex flex-col sm:flex-row items-center gap-5 max-w-2xl shadow-2xl">
-                                    <div class="w-24 h-24 rounded-full border-2 border-qau-azure overflow-hidden shrink-0 shadow-lg bg-slate-800">
-                                        <img src="vc.png" alt="Prof. Dr. Zafar Nawaz Jaspal" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://qau.edu.pk/wp-content/uploads/2026/08/21082026new22.jpg';">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm italic text-slate-100 font-serif leading-relaxed drop-shadow">
-                                            "Quaid-i-Azam University remains committed to academic rigour, high-impact scientific research, and serving as the flagship institution of higher learning in Pakistan."
-                                        </p>
-                                        <div class="mt-3 text-xs font-bold text-qau-azure uppercase tracking-wider">
-                                            — Prof. Dr. Zafar Nawaz Jaspal (Vice Chancellor)
-                                        </div>
-                                    </div>
-                                </div>
-                            ` : ''}
-
-                            ${currentSlide.items ? `
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 max-w-xl">
-                                    ${currentSlide.items.map(item => `
-                                        <div class="glass-card-dark px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-100 flex items-center space-x-2">
-                                            <i class="fa-solid fa-circle-check text-qau-azure"></i>
-                                            <span>${item}</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }
+            stage.innerHTML = `<div class="w-full h-full hero-enter overflow-y-auto custom-scroll flex flex-col justify-center p-4 md:p-8 pr-32">${currentSlide.render()}</div>`;
 
             document.getElementById('current-slide-num').innerText = String(currentSlide.id).padStart(2, '0');
             document.getElementById('total-slides-num').innerText = String(slides.length).padStart(2, '0');
@@ -502,12 +513,330 @@
                     }
                 }, 300);
             }
+
+            setTimeout(() => {
+                if (document.getElementById('quota-chart-canvas')) {
+                    initQuotaChart();
+                }
+            }, 100);
         }
 
+        // SLIDE RENDERERS
+        function renderSlideOverview() {
+            const data = presentationData.overview;
+            return `
+                <div class="max-w-5xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="inline-flex items-center gap-2 glass-badge px-4 py-1.5 rounded-full text-amber-300 font-bold text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-crown text-amber-400"></i>
+                            <span>Ranked #1 University in Pakistan (HEC)</span>
+                        </div>
+                        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                            Quaid-i-Azam University <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-sky-400">Islamabad</span>
+                        </h1>
+                        <p class="text-slate-200 text-sm md:text-base leading-relaxed glass-card-dark p-4 rounded-xl border-l-4 border-l-amber-400">
+                            ${data.mission}
+                        </p>
+                        <div class="flex flex-wrap gap-3 pt-1">
+                            <span class="glass-badge px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200">
+                                <i class="fa-solid fa-calendar text-amber-400 mr-1.5"></i> Founded ${data.established}
+                            </span>
+                            <span class="glass-badge px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200">
+                                <i class="fa-solid fa-map-location-dot text-emerald-400 mr-1.5"></i> ${data.area} Campus
+                            </span>
+                            <span class="glass-badge px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200">
+                                <i class="fa-solid fa-graduation-cap text-sky-400 mr-1.5"></i> 31 Departments & 6 Centers
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
+                        ${data.coreStats.map(stat => `
+                            <div class="glass-card-dark p-4 rounded-xl hover:border-amber-400/50 transition">
+                                <i class="fa-solid ${stat.icon} ${stat.color} text-2xl mb-2"></i>
+                                <div class="text-2xl font-black text-white font-mono">${stat.val}</div>
+                                <div class="text-xs font-bold text-slate-200 mt-0.5">${stat.label}</div>
+                                <div class="text-[10px] text-slate-400">${stat.sub}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideVCAndRankings() {
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-5">
+                    <div class="glass-card-dark p-5 rounded-2xl border border-white/20 flex flex-col md:flex-row items-center gap-5">
+                        <div class="w-24 h-24 rounded-full border-2 border-amber-400 overflow-hidden shrink-0 shadow-lg bg-slate-800">
+                            <img src="vc.png" alt="Prof. Dr. Zafar Nawaz Jaspal" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://qau.edu.pk/wp-content/uploads/2026/08/21082026new22.jpg';">
+                        </div>
+                        <div>
+                            <span class="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Vice-Chancellor's Address</span>
+                            <h2 class="text-xl font-black text-white mt-0.5">Pioneering Academic Excellence & Innovation</h2>
+                            <p class="text-xs italic text-slate-200 font-serif leading-relaxed mt-2">
+                                "Quaid-i-Azam University remains committed to academic rigour, high-impact scientific research, and serving as the flagship institution of higher learning in Pakistan."
+                            </p>
+                            <div class="mt-2 text-xs font-bold text-amber-300">
+                                — Prof. Dr. Zafar Nawaz Jaspal (Vice Chancellor, QAU)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="glass-card-dark p-4 rounded-xl border-t-4 border-t-amber-400 text-center">
+                            <div class="text-xs font-extrabold text-amber-400 uppercase">QS World Rankings 2024</div>
+                            <div class="text-3xl font-black text-white font-mono my-1">#315</div>
+                            <div class="text-xs text-slate-300">Top 21% Worldwide</div>
+                        </div>
+                        <div class="glass-card-dark p-4 rounded-xl border-t-4 border-t-sky-400 text-center">
+                            <div class="text-xs font-extrabold text-sky-400 uppercase">Times Higher Ed 2022</div>
+                            <div class="text-xl font-black text-white my-1">#1 in Pakistan</div>
+                            <div class="text-xs text-slate-300">116th in Asia</div>
+                        </div>
+                        <div class="glass-card-dark p-4 rounded-xl border-t-4 border-t-emerald-400 text-center">
+                            <div class="text-xs font-extrabold text-emerald-400 uppercase">US News Ranking 2022</div>
+                            <div class="text-xl font-black text-white my-1">#1 in Pakistan</div>
+                            <div class="text-xs text-slate-300">461st Globally</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideORIC() {
+            const oricItems = [
+                { title: "PKR 500M+ Annual Grants", desc: "Active research funding from HEC, USAID, British Council & international agencies.", icon: "fa-sack-dollar", color: "text-amber-400" },
+                { title: "3,500+ Annual Publications", desc: "High-impact research output published in reputed international journals.", icon: "fa-book-journal-whills", color: "text-sky-400" },
+                { title: "Technology Incubation Hub", desc: "Active commercialization center driving student startups and industry spin-offs.", icon: "fa-lightbulb", color: "text-emerald-400" },
+                { title: "60+ Registered Patents", desc: "National and international patent filings in biotechnology, chemistry & IT.", icon: "fa-certificate", color: "text-rose-400" }
+            ];
+
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-5">
+                    <div class="glass-card-dark p-5 rounded-2xl border-l-4 border-l-amber-400">
+                        <span class="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Office of Research, Innovation & Commercialization</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-white mt-1">Research & Innovation Engine (ORIC)</h2>
+                        <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+                            Driving Pakistan's technological advancement through high-impact research, commercialization, industrial partnerships, and incubation hubs.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        ${oricItems.map(item => `
+                            <div class="glass-card-dark p-4 rounded-xl border border-white/10 flex items-start space-x-3.5 hover:border-amber-400/50 transition">
+                                <div class="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center text-xl shrink-0 ${item.color} border border-white/10">
+                                    <i class="fa-solid ${item.icon}"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">${item.title}</h3>
+                                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">${item.desc}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideFaculty(faculty) {
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-4">
+                    <div class="glass-card-dark p-5 rounded-2xl border-l-4 border-l-amber-400">
+                        <span class="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Academic Faculty Overview</span>
+                        <h2 class="text-2xl font-black text-white mt-1">${faculty.title}</h2>
+                        <p class="text-xs text-slate-300 mt-1 italic max-w-3xl">"${faculty.message}"</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="glass-card-dark p-3 rounded-xl text-center">
+                            <div class="text-xs text-slate-400 font-semibold">Total Enrolled</div>
+                            <div class="text-2xl font-black text-white font-mono mt-0.5">${faculty.totalStudents}</div>
+                        </div>
+                        <div class="glass-card-dark p-3 rounded-xl text-center">
+                            <div class="text-xs text-slate-400 font-semibold">Male vs Female</div>
+                            <div class="text-base font-black text-sky-400 mt-0.5 font-mono">${faculty.gender.male}% / ${faculty.gender.female}%</div>
+                        </div>
+                        <div class="glass-card-dark p-3 rounded-xl text-center">
+                            <div class="text-xs text-slate-400 font-semibold">Faculty Members</div>
+                            <div class="text-2xl font-black text-emerald-400 font-mono mt-0.5">${faculty.facultyCount.total}</div>
+                        </div>
+                        <div class="glass-card-dark p-3 rounded-xl text-center">
+                            <div class="text-xs text-slate-400 font-semibold">Program Mix</div>
+                            <div class="text-[11px] font-bold text-amber-300 mt-1">BS ${faculty.enrollment.bs}% | MPhil ${faculty.enrollment.mphil}% | PhD ${faculty.enrollment.phd}%</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card-dark p-4 rounded-2xl">
+                        <h3 class="text-xs font-extrabold uppercase tracking-wider text-amber-400 mb-2">Academic Departments, Schools & Research Centers</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-h-48 overflow-y-auto custom-scroll pr-1">
+                            ${faculty.departments.map(d => `
+                                <div class="bg-slate-900/90 border border-white/10 p-2 rounded-xl flex justify-between items-center text-xs">
+                                    <span class="font-semibold text-slate-200 truncate pr-2" title="${d.name}">${d.name}</span>
+                                    <span class="text-[9px] font-bold text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-400/20 shrink-0">${d.degrees}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideQuota() {
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-4">
+                    <div class="text-center max-w-xl mx-auto">
+                        <span class="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Regional Equality & Interprovincial Harmony</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-white mt-1">Admissions Regional Quota Breakdown</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-5 flex justify-center">
+                            <div class="w-60 h-60 relative glass-card-dark p-4 rounded-full flex items-center justify-center">
+                                <canvas id="quota-chart-canvas"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            ${presentationData.quota.map(q => `
+                                <div class="glass-card-dark p-3.5 rounded-xl border-l-4 flex justify-between items-center" style="border-left-color: ${q.color}">
+                                    <div>
+                                        <div class="text-xs font-bold text-white">${q.region}</div>
+                                        <div class="text-[10px] text-slate-400">Regional Allocation</div>
+                                    </div>
+                                    <div class="text-xl font-black font-mono text-amber-300">${q.percent}%</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initQuotaChart() {
+            const ctx = document.getElementById('quota-chart-canvas');
+            if (!ctx) return;
+            if (activeChart) activeChart.destroy();
+
+            activeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: presentationData.quota.map(q => q.region),
+                    datasets: [{
+                        data: presentationData.quota.map(q => q.percent),
+                        backgroundColor: presentationData.quota.map(q => q.color),
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderSlideLibrary() {
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-5">
+                    <div class="glass-card-dark p-6 rounded-2xl border-l-4 border-l-amber-400 max-w-2xl">
+                        <span class="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Central Knowledge Repository</span>
+                        <h2 class="text-3xl font-black text-white mt-1">Dr. Raziuddin Siddiqui Central Library</h2>
+                        <p class="text-sm text-slate-200 mt-2 leading-relaxed">
+                            Housing over 250,000 volumes, full digital repository access via HEC PERN high-speed connectivity, and quiet reading lounges.
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 mt-4">
+                            <div class="glass-badge p-2.5 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-book-open text-amber-400"></i>
+                                <span>250,000+ Printed Volumes</span>
+                            </div>
+                            <div class="glass-badge p-2.5 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-wifi text-sky-400"></i>
+                                <span>PERN High-Speed Wi-Fi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideHostel() {
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-5">
+                    <div class="glass-card-dark p-6 rounded-2xl border-l-4 border-l-emerald-400 max-w-2xl">
+                        <span class="text-emerald-400 text-xs font-extrabold uppercase tracking-widest">On-Campus Residential Facilities</span>
+                        <h2 class="text-3xl font-black text-white mt-1">Vibrant Residential Campus Life</h2>
+                        <p class="text-sm text-slate-200 mt-2 leading-relaxed">
+                            16 On-campus residential halls, central sports complexes, student mess facilities, campus bus fleet, and 24/7 medical services.
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 mt-4">
+                            <div class="glass-badge p-2.5 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-hotel text-emerald-400"></i>
+                                <span>16 Residential Hostels</span>
+                            </div>
+                            <div class="glass-badge p-2.5 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-bus-simple text-amber-400"></i>
+                                <span>Campus Bus Fleet</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideAlumni() {
+            return `
+                <div class="max-w-5xl mx-auto w-full space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Global Leadership</span>
+                            <h2 class="text-2xl md:text-3xl font-black text-white">Notable Alumni of QAU</h2>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-2.5 max-h-[340px] overflow-y-auto custom-scroll pr-1 pb-2">
+                        ${presentationData.alumni.map(a => {
+                            const initials = a.name.split(' ').map(n => n[0]).slice(0, 2).join('');
+                            return `
+                            <div class="glass-card-dark p-2.5 rounded-xl flex items-center space-x-2.5 hover:border-amber-400/50 transition border border-white/10">
+                                <div class="w-9 h-9 rounded-full border border-amber-400/60 bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0">
+                                    ${initials}
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="text-xs font-bold text-white truncate" title="${a.name}">${a.name}</div>
+                                    <div class="text-[10px] text-amber-300 font-semibold truncate leading-tight">${a.role}</div>
+                                    <div class="text-[9px] text-slate-400 uppercase tracking-wider leading-tight">${a.category}</div>
+                                </div>
+                            </div>
+                        `}).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSlideVideo() {
+            return `
+                <div class="hero-enter h-full w-full relative z-10 overflow-hidden rounded-xl">
+                    <video id="qau-campus-video" class="w-full h-full object-cover" autoplay muted playsinline loop poster="8.jpg">
+                        <source src="qau-1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="absolute bottom-6 left-8 bg-black/70 backdrop-blur-md px-5 py-3 rounded-xl border border-white/20 text-white z-20 pointer-events-none">
+                        <h2 class="text-lg font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-video text-amber-400"></i> Quaid-i-Azam University Aerial & Campus Tour
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-0.5">Campus showcase and virtual walkthrough</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // DOCK THUMBNAILS & CONTROLS
         function renderThumbnails() {
             const container = document.getElementById('sidebar-thumbnails');
             const backdrop = document.getElementById('active-curve-backdrop');
-            
+
             container.innerHTML = '';
             container.appendChild(backdrop);
 
@@ -519,7 +848,7 @@
                 thumb.className = `circle-thumb-item ${index === currentSlideIndex ? 'active' : ''}`;
                 thumb.onclick = () => loadSlide(index);
                 thumb.title = slide.title;
-                thumb.innerHTML = `<img src="${slide.bg}" class="w-full h-full object-cover">`;
+                thumb.innerHTML = `<img src="${slide.bg}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${slide.id}&background=0b1d3a&color=f59e0b';">`;
 
                 wrapper.appendChild(thumb);
                 container.appendChild(wrapper);
@@ -535,7 +864,7 @@
                 if (index === currentSlideIndex) {
                     thumb.classList.add('active');
                     if (backdrop && wrapper.offsetTop) {
-                        backdrop.style.top = `${wrapper.offsetTop - 10}px`;
+                        backdrop.style.top = `${wrapper.offsetTop - 8}px`;
                     }
                 } else {
                     thumb.classList.remove('active');
@@ -564,10 +893,10 @@
                 const mins = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
                 const secs = String(timeRemaining % 60).padStart(2, '0');
                 document.getElementById('timer-countdown').innerText = `${mins}:${secs}`;
-                document.getElementById('slide-timer-mode').innerText = 'SILENT SHOWCASE';
+                document.getElementById('slide-timer-mode').innerText = 'VIDEO SHOWCASE';
             } else {
                 document.getElementById('timer-countdown').innerText = `${timeRemaining}s`;
-                document.getElementById('slide-timer-mode').innerText = 'AUTO-ADVANCE';
+                document.getElementById('slide-timer-mode').innerText = 'AUTO ADVANCE';
             }
         }
 
@@ -590,11 +919,7 @@
         function togglePlayPause() {
             isPlaying = !isPlaying;
             const btnIcon = document.getElementById('play-pause-icon');
-            if (isPlaying) {
-                btnIcon.className = 'fa-solid fa-pause text-xs';
-            } else {
-                btnIcon.className = 'fa-solid fa-play text-xs';
-            }
+            btnIcon.className = isPlaying ? 'fa-solid fa-pause text-xs' : 'fa-solid fa-play text-xs';
 
             const videoElem = document.getElementById('qau-campus-video');
             if (videoElem) {
@@ -607,7 +932,7 @@
             container.innerHTML = '';
             slides.forEach((slide, index) => {
                 const dot = document.createElement('button');
-                dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${index === currentSlideIndex ? 'bg-qau-azure w-6' : 'bg-white/40 hover:bg-white/70'}`;
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${index === currentSlideIndex ? 'bg-amber-400 w-6' : 'bg-white/30 hover:bg-white/70'}`;
                 dot.onclick = () => loadSlide(index);
                 dot.title = `Slide ${slide.id}: ${slide.title}`;
                 container.appendChild(dot);
@@ -617,11 +942,9 @@
         function updateDots() {
             const dots = document.getElementById('dots-container').children;
             Array.from(dots).forEach((dot, index) => {
-                if (index === currentSlideIndex) {
-                    dot.className = 'w-6 h-2.5 rounded-full bg-qau-azure transition-all duration-300';
-                } else {
-                    dot.className = 'w-2.5 h-2.5 rounded-full bg-white/40 hover:bg-white/70 transition-all duration-300';
-                }
+                dot.className = index === currentSlideIndex 
+                    ? 'w-6 h-2.5 rounded-full bg-amber-400 transition-all duration-300' 
+                    : 'w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/70 transition-all duration-300';
             });
         }
 
@@ -632,16 +955,14 @@
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
                 const ampm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12;
-                const hoursStr = String(hours).padStart(2, '0');
+                hours = hours % 12 || 12;
                 
                 const clockElem = document.getElementById('digital-clock');
                 if (clockElem) {
-                    clockElem.innerText = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+                    clockElem.innerText = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
                 }
 
-                const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+                const options = { weekday: 'short', month: 'short', day: 'numeric' };
                 const dateElem = document.getElementById('digital-date');
                 if (dateElem) {
                     dateElem.innerText = now.toLocaleDateString('en-US', options);
@@ -653,13 +974,9 @@
 
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Fullscreen error: ${err.message}`);
-                });
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+                if (document.exitFullscreen) document.exitFullscreen();
             }
         }
     </script>
