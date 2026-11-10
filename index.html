@@ -60,10 +60,10 @@
         }
 
         .glass-card-dark {
-            background: rgba(11, 23, 48, 0.82);
+            background: rgba(11, 23, 48, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
@@ -407,22 +407,22 @@
                 { region: "AJK", percent: 2.0, color: "#84cc16" }
             ],
             alumni: [
-                { name: "Maleeha Lodhi", role: "Diplomat", category: "Diplomacy", img: "maleeha.jpg" },
-                { name: "Shamshad Akhtar", role: "Economist", category: "Economy", img: "shamshad.jpg" },
-                { name: "Tehmina Janjua", role: "Diplomat", category: "Diplomacy", img: "tehmina.jpg" },
-                { name: "Ashraf Wathra", role: "Governor State Bank", category: "Economy", img: "ashraf.jpg" },
-                { name: "Salma Zahid", role: "Canadian MP", category: "Politics", img: "salma.jpg" },
-                { name: "Abdul Basit", role: "Diplomat", category: "Diplomacy", img: "basit.jpg" },
-                { name: "Naila Chohan", role: "Diplomat", category: "Diplomacy", img: "naila.jpg" },
-                { name: "Muhammad Zakaullah", role: "Admiral / Navy Chief", category: "Defence", img: "zakaullah.jpg" },
-                { name: "Dr. Ansar Pervaiz", role: "Scientist", category: "Science", img: "ansar.jpg" },
-                { name: "Dr. Irshad Hussain", role: "Scientist", category: "Science", img: "irshad.jpg" },
-                { name: "Samina Yasmeen", role: "Political Expert", category: "Academia", img: "samina.jpg" },
-                { name: "Marriyum Aurangzeb", role: "Pak Politician/Minister", category: "Politics", img: "maryam.jpg" },
-                { name: "Qamar-uz-Zaman Ch.", role: "Scientist", category: "Science", img: "qamar.jpg" },
-                { name: "Ibrar ul Haq", role: "Singer", category: "Arts", img: "ibrar.jpg" },
-                { name: "Hamza Ali Abbasi", role: "Actor", category: "Arts", img: "hamza.jpg" },
-                { name: "Naseem Zehra", role: "Anchor/Journalist", category: "Media", img: "naseem.jpg" }
+                { name: "Maleeha Lodhi", role: "Diplomat", category: "Diplomacy", img: "alumni/maleeha.jpg" },
+                { name: "Shamshad Akhtar", role: "Economist", category: "Economy", img: "alumni/shamshad.jpg" },
+                { name: "Tehmina Janjua", role: "Diplomat", category: "Diplomacy", img: "alumni/tehmina.jpg" },
+                { name: "Ashraf Wathra", role: "Governor State Bank", category: "Economy", img: "alumni/ashraf.jpg" },
+                { name: "Salma Zahid", role: "Canadian MP", category: "Politics", img: "alumni/salma.jpg" },
+                { name: "Abdul Basit", role: "Diplomat", category: "Diplomacy", img: "alumni/basit.jpg" },
+                { name: "Naila Chohan", role: "Diplomat", category: "Diplomacy", img: "alumni/naila.jpg" },
+                { name: "Muhammad Zakaullah", role: "Admiral / Navy Chief", category: "Defence", img: "alumni/zakaullah.jpg" },
+                { name: "Dr. Ansar Pervaiz", role: "Scientist", category: "Science", img: "alumni/ansar.jpg" },
+                { name: "Dr. Irshad Hussain", role: "Scientist", category: "Science", img: "alumni/irshad.jpg" },
+                { name: "Samina Yasmeen", role: "Political Expert", category: "Academia", img: "alumni/samina.jpg" },
+                { name: "Marriyum Aurangzeb", role: "Pak Politician/Minister", category: "Politics", img: "alumni/marriyum.jpg" },
+                { name: "Qamar-uz-Zaman Ch.", role: "Scientist", category: "Science", img: "alumni/qamar.jpg" },
+                { name: "Ibrar ul Haq", role: "Singer", category: "Arts", img: "alumni/ibrar.jpg" },
+                { name: "Hamza Ali Abbasi", role: "Actor", category: "Arts", img: "alumni/hamza.jpg" },
+                { name: "Naseem Zehra", role: "Anchor/Journalist", category: "Media", img: "alumni/naseem.jpg" }
             ]
         };
 
@@ -826,24 +826,24 @@
         function renderSlideAlumni() {
             return `
                 <div class="max-w-5xl mx-auto w-full space-y-3">
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center mb-1">
                         <div>
                             <span class="text-amber-400 text-[10px] sm:text-xs font-extrabold uppercase tracking-widest">Global Leadership</span>
                             <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-white">Notable Alumni of QAU</h2>
                         </div>
                     </div>
         
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 max-h-[300px] sm:max-h-[340px] overflow-y-auto custom-scroll pr-1 pb-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-h-[320px] sm:max-h-[380px] overflow-y-auto custom-scroll pr-1 pb-2">
                         ${presentationData.alumni.map(a => `
-                            <div class="glass-card-dark p-2.5 rounded-xl flex items-center space-x-2.5 hover:border-amber-400/50 transition border border-white/10">
-                                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-amber-400/60 overflow-hidden bg-slate-800 shrink-0">
+                            <div class="glass-card-dark p-3 sm:p-3.5 rounded-2xl flex items-center space-x-3 hover:border-amber-400/80 transition-all border border-white/20 shadow-lg bg-slate-900/90">
+                                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-amber-400 overflow-hidden bg-slate-800 shrink-0 shadow-md">
                                     <img src="${a.img}" alt="${a.name}" class="w-full h-full object-cover" 
                                          onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(a.name)}&background=0b1d3a&color=f59e0b';">
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <div class="text-xs font-bold text-white truncate" title="${a.name}">${a.name}</div>
-                                    <div class="text-[10px] text-amber-300 font-semibold truncate leading-tight">${a.role}</div>
-                                    <div class="text-[9px] text-slate-400 uppercase tracking-wider leading-tight">${a.category}</div>
+                                    <div class="text-xs sm:text-sm font-black text-white truncate leading-tight" title="${a.name}">${a.name}</div>
+                                    <div class="text-[11px] sm:text-xs text-amber-300 font-bold truncate leading-tight mt-0.5">${a.role}</div>
+                                    <div class="text-[9px] sm:text-[10px] text-slate-400 uppercase tracking-wider font-semibold leading-tight mt-0.5">${a.category}</div>
                                 </div>
                             </div>
                         `).join('')}
