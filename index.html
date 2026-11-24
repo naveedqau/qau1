@@ -32,7 +32,7 @@
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -210,6 +210,87 @@
         .custom-scroll::-webkit-scrollbar-thumb:hover {
             background: rgba(245, 158, 11, 0.8);
         }
+    </style>
+    <style id="modern-theme">
+        :root{
+            --gold:#f5b94a; --gold-2:#f59e0b; --sky:#5cc8ff; --ink:#050b1a;
+            --glass:rgba(12,22,46,.55); --glass-strong:rgba(9,17,38,.78);
+            --line:rgba(255,255,255,.12); --radius:22px;
+        }
+        html{scroll-behavior:smooth}
+        body{
+            font-family:'Inter',system-ui,sans-serif;
+            background:
+              radial-gradient(1100px 600px at 12% -10%, rgba(56,189,248,.18), transparent 60%),
+              radial-gradient(900px 600px at 100% 0%, rgba(245,158,11,.16), transparent 55%),
+              radial-gradient(900px 700px at 50% 120%, rgba(99,102,241,.18), transparent 60%),
+              var(--ink);
+            -webkit-font-smoothing:antialiased;
+        }
+        h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif;letter-spacing:-.02em}
+
+        /* Glass surfaces: softer, with a thin gradient edge */
+        .glass-badge,.glass-card-dark{
+            position:relative;
+            background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.03)) , var(--glass);
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
+            border:1px solid var(--line);
+            box-shadow:0 10px 40px -12px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        .glass-card-dark{background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.015)), var(--glass-strong)}
+        .glass-card-dark{transition:transform .35s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .3s}
+        .glass-card-dark:hover{transform:translateY(-4px);border-color:rgba(245,185,74,.45);
+            box-shadow:0 22px 50px -14px rgba(0,0,0,.7), 0 0 0 1px rgba(245,185,74,.15)}
+
+        /* Header: floating bar with gold hairline */
+        body > header{border-radius:var(--radius)!important;overflow:hidden}
+        body > header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+            background:linear-gradient(90deg,transparent,var(--gold),var(--sky),transparent);opacity:.7}
+        body > header h1{font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.04em}
+
+        /* Hero stage */
+        main{border-radius:28px!important;border:1px solid var(--line)!important;
+            box-shadow:0 40px 80px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.04)}
+        /* Staggered entrance for slide content */
+        .hero-enter{animation:heroFadeIn .7s cubic-bezier(.16,1,.3,1) both}
+        .hero-enter > div > *{opacity:0;animation:rise .8s cubic-bezier(.16,1,.3,1) forwards}
+        .hero-enter > div > *:nth-child(1){animation-delay:.05s}
+        .hero-enter > div > *:nth-child(2){animation-delay:.18s}
+        .hero-enter > div > *:nth-child(3){animation-delay:.3s}
+        .hero-enter > div > *:nth-child(4){animation-delay:.42s}
+        @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+        /* Gradient headline accent shimmer */
+        .bg-clip-text{background-size:200% auto;animation:shine 6s linear infinite}
+        @keyframes shine{to{background-position:200% center}}
+
+        /* Dock thumbnails */
+        .circle-thumb-item{border:2px solid rgba(255,255,255,.55);box-shadow:0 8px 22px rgba(0,0,0,.55)}
+        .circle-thumb-item.active{border-color:var(--gold-2);
+            box-shadow:0 0 0 4px rgba(245,158,11,.18),0 0 34px rgba(245,158,11,.55),0 10px 26px rgba(0,0,0,.7)}
+        .active-curve-backdrop{background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(245,185,74,.18));
+            border-left:2px solid rgba(245,185,74,.7)}
+
+        /* Footer controls */
+        #app-footer{border-radius:var(--radius)!important}
+        .glass-circle-btn{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+        .glass-circle-btn:hover{background:rgba(245,185,74,.22);border-color:var(--gold);transform:translateY(-2px) scale(1.06)}
+        #play-pause-btn{background:linear-gradient(135deg,#ffd27a,#f59e0b)!important;
+            box-shadow:0 8px 22px -6px rgba(245,158,11,.7)}
+        #progress-bar{background:linear-gradient(90deg,var(--gold-2),var(--sky))!important;
+            box-shadow:0 0 14px rgba(92,200,255,.6)}
+
+        /* Scrollbar */
+        .custom-scroll::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold-2),var(--sky))}
+
+        /* Focus + motion accessibility */
+        button:focus-visible{outline:2px solid var(--sky);outline-offset:3px}
+        @media (prefers-reduced-motion:reduce){
+            *,*::before,*::after{animation:none!important;transition:none!important}
+            .hero-enter > div > *{opacity:1}
+        }
+        @media (max-width:640px){main{border-radius:20px!important}}
     </style>
 </head>
 <body class="min-h-screen lg:h-screen w-screen flex flex-col justify-between p-2 sm:p-3 md:p-4 bg-slate-950 text-white overflow-x-hidden relative">
@@ -527,7 +608,7 @@
             const stage = document.getElementById('slide-stage');
 
             stage.style.backgroundPosition = (currentSlide.bg === 'bab1.jpg' || index === 0) ? 'center top' : 'center center';
-            stage.style.backgroundImage = `linear-gradient(to right, rgba(11, 16, 36, 0.88) 0%, rgba(11, 16, 36, 0.55) 55%, rgba(11, 16, 36, 0.82) 100%), url('${currentSlide.bg}')`;
+            stage.style.backgroundImage = `linear-gradient(180deg, rgba(5, 11, 26, 0.55) 0%, rgba(5, 11, 26, 0) 35%, rgba(5, 11, 26, 0.7) 100%), linear-gradient(to right, rgba(8, 14, 32, 0.9) 0%, rgba(8, 14, 32, 0.5) 55%, rgba(8, 14, 32, 0.8) 100%), url('${currentSlide.bg}')`;
 
             stage.innerHTML = `<div class="w-full h-full hero-enter overflow-y-auto custom-scroll flex flex-col justify-center p-4 md:p-6 lg:p-8 pb-20 lg:pb-8 lg:pr-32">${currentSlide.render()}</div>`;
 
